@@ -1,0 +1,69 @@
+site_name: Juane’s Infrastructure Lab
+site_url: https://mydomain.org/mysite
+theme:
+  logo: assets/icon.png
+  favicon: assets/icon.png
+  language: es
+  font:
+    text: Open Sans 
+    code: Roboto Mono
+  features:
+    - content.code.copy
+  name: material
+  palette: 
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+        
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-sunny 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - i18n:
+      default_language: es
+      languages:
+        en: English
+        es: Español
+  - glightbox:
+      options:
+        selector: 'glightbox'
+        touchNavigation: true
+        loop: false
+        width: '100%'
+        height: '100%'
+        zoomable: true
+        draggable: true
+        shadow: true
+        autoplayVideos: false
+
