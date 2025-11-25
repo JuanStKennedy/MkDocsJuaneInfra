@@ -8,6 +8,11 @@ theme:
     text: Open Sans 
     code: Roboto Mono
   features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.path
+    - content.code.select
     - content.code.copy
   name: material
   palette: 
@@ -67,3 +72,9 @@ plugins:
         shadow: true
         autoplayVideos: false
 
+extra_javascript:
+  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
+  - javascripts/tablesort.js
+
+extra_css:
+  - stylesheets/extra.css

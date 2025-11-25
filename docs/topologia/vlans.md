@@ -21,7 +21,7 @@ Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en 
 
 ## 3. Configuración del Switch de Acceso (JPSWA01)
 
-`JPSWA01` es un switch Cisco de Capa 2 que conecta a los dispositivos finales.
+`JPSWA01` es un switch Cisco de Capa 2 que conecta a los dispositivos finales pero también tiene un enlace troncal hacia `JPSWC01`.
 
 ### Puertos de Acceso (Access Ports)
 

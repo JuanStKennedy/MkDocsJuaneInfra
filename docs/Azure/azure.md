@@ -3,25 +3,22 @@
 
 Este componente es una Máquina Virtual (VM) en **Microsoft Azure** que actúa como el **único punto de entrada público** para los servicios internos del laboratorio.
 
-## 1. Propósito y Diseño
+## 1. Diseño
 
-**El Problema:** Alojar servicios como NetBox o Kuma en casa (on-premise) es genial, pero exponerlos a Internet de forma segura es complicado. Abrir puertos en el router de casa (ej. `80`, `443`) es un riesgo de seguridad significativo y además que se necesita de una IP pública fija.
-
-**La Solución:**
 Se utiliza una VM pequeña y económica en Azure como un proxy reverso.
 
 1.  **Nginx:** Actúa como el proxy reverso. Recibe todo el tráfico público.
 2.  **SSL (Let's Encrypt):** Nginx (junto con Certbot) se encarga de gestionar los certificados SSL, proporcionando https a los usuarios finales.
 3.  **Tailscale:** La VM de Azure y el firewall pfSense del laboratorio están **ambos en la misma Tailnet (VPN)**.
 
-Esta arquitectura nos permite exponer servicios al público **sin abrir un solo puerto en el firewall de casa**.
+Esta arquitectura nos permite exponer servicios al público **sin tener que hacer muchos reenvio de puertos en PfSense (Port-Forwarding)**.
 
 ## 2. Flujo de Tráfico (Público a Interno)
 
 Este es el flujo exacto que sigue una petición de un usuario:
 
 1.  Un usuario accede a `https://netbox.js-lab-uy.ddnsfree.com`.
-2.  El DNS público apunta ese dominio a la **IP pública de la VM en Azure**.
+2.  El DNS público (un DNS dinámico) apunta ese dominio a la **IP pública de la VM en Azure**.
 3.  La VM de Azure recibe la petición en el puerto 443.
 4.  **Nginx** la intercepta, la descifra y gestiona la conexión SSL.
 5.  Nginx ve la regla de `proxy_pass` que apunta a la IP *interna del laboratorio* (ej. `http://172.16.200.50:8000`).

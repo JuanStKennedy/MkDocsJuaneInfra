@@ -5,14 +5,14 @@
 El enrutamiento es el proceso de dirigir el tráfico entre las diferentes subredes. En esta topología, el enrutamiento cumple tres funciones principales:
 
 1.  **Enrutamiento Inter-VLAN:** Permitir que las VLANs (Datacenter, Dev, Sysadmin) se comuniquen entre sí.
-2.  **Enrutamiento Core:** Interconectar la red de campus (VLANs) con la red de servicios (Firewall y Management).
+2.  **Enrutamiento Core:** Interconectar las red VLANs con la red de servicios (Firewall y Management).
 3.  **Enrutamiento a Internet:** Proveer una ruta por defecto (Default Route) y Traducción de Direcciones de Red (NAT) para que los hosts internos accedan a Internet.
 
 **Dispositivos de Enrutamiento:**
 
 * **`JPROO2` (Router Cisco):** Se encarga del "Router-on-a-Stick" y es el gateway de todas las VLANs.
 * **`JPROO1` (Router VyOS):** Actúa como router "core" o de tránsito, conectando el router Cisco con el firewall.
-* **`JPFW01` (Firewall):** Es el router de borde. Se encarga de la seguridad y del NAT para salir a Internet.
+* **`JPFW01` (Firewall):** Es el firewall de borde. Se encarga de la seguridad y del NAT para salir a Internet.
 
 ---
 
@@ -46,7 +46,7 @@ Loopback0                  2.2.2.2         YES NVRAM  up                    up
 
 ---
 
-## 3. Enrutamiento Core (JPROO2 <-> JPROO1)
+## 3. Enrutamiento Core (JPROO2 :octicons-arrow-both-24: JPROO1)
 
 Esta es la conexión entre los dos routers principales sobre la red `10.10.1.0/30`.
 
@@ -150,7 +150,7 @@ pfSense debe hacer **NAT Saliente** para "esconder" todas tus IPs privadas (172.
 Como se ve en la captura, se seleccionó el modo **"Hybrid Outbound NAT"**.
 ![NAT Pfsense 1](../assets/nat1.png)
 
-Esto permite en PfSense:
+#### Esto permite en PfSense:
 1.  **Reglas Manuales:** Permite crear reglas específicas (como la regla para `10.10.0.0/30` que se ve abajo en la imagen).
 2.  **Reglas Automáticas:** pfSense sigue generando automáticamente las reglas para las redes internas (VLANs, etc.) que no coincidan con una regla manual.
 
