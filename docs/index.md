@@ -25,7 +25,7 @@ Este sitio es mi **laboratorio de redes y topologías con GNS3**, donde comparto
 | [Direcciones IP](topologia/direcciones-ip.md) | Direccionamiento IP por interfaz |
 | [Dispositivos](dispositivos/index.md) | Configuración de routers, switches y servidores |
 | [Servicios](servicios/index.md) | Servicios desplegados con Docker en servers |
-| [Azure](Azure/azure.md) | Uso de la vm de azure como proxy reverso |
+| [AWS](AWS/aws.md) | Uso de la vm de azure como proxy reverso |
 
 ---
 
