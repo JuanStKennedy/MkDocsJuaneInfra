@@ -1,6 +1,6 @@
 # :doughnut: Homer (Portal de Servicios)
 
-> **URL de Acceso:** `https://homer.js-lab-uy.ddnsfree.com`
+> **URL de Acceso:** `https://homer.js-lab-uy.duckdns.org`
 
 Homer es un dashboard estático y simple, auto-alojado. Es la **"página de inicio"** de todo nuestro laboratorio.
 

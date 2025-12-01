@@ -1,6 +1,6 @@
 # :notebook_with_decorative_cover: NetBox (Source of Truth)
 
-> **URL de Acceso:** `https://netbox.js-lab-uy.ddnsfree.com`
+> **URL de Acceso:** `https://netbox.js-lab-uy.duckdns.org`
 
 NetBox es una herramienta de código abierto para la gestión de infraestructura. Es el componente más importante de nuestra gestión: actúa como la fuente de confianza de nuestro laboratorio.
 

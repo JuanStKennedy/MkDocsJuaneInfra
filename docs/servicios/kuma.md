@@ -1,6 +1,6 @@
 # 📈 Uptime Kuma (Monitoreo)
 
-> **URL de Acceso:** `https://kuma.js-lab-uy.ddnsfree.com`
+> **URL de Acceso:** `https://kuma.js-lab-uy.duckdns.org`
 
 Uptime Kuma es un dashboard de monitoreo simple y de código abierto. En nuestra topología
 nos sirve para saber si nuestros dispositivos de red están activos así como también nuestras páginas.

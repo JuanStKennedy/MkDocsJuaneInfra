@@ -9,7 +9,7 @@ Este sitio es mi **laboratorio de redes y topologías con GNS3**, donde comparto
 - **Topologías de red:** diagramas y mapas de conectividad simulados en GNS3.  
 - **Direcciones IP y VLANs:** planes de direccionamiento, tablas y rangos.  
 - **Enrutamiento y protocolos:** OSPF, rutas estáticas, redistribución entre routers y firewall.  
-- **Dispositivos individuales:** configuraciones de routers, switches, servidores y firewalls.  
+- **Dispositivos individuales:** configuraciones de routers, switches, servidores y firewall.  
 - **Notas y cambios:** registro de pruebas, mejoras y ajustes de laboratorio.
 
 ---
