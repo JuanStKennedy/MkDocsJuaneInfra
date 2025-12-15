@@ -1,6 +1,6 @@
 # Bienvenido a Juane’s Infrastructure Lab 🖧
 
-Este sitio es mi **laboratorio de redes y topologías con GNS3**, donde comparto configuraciones, diagramas y prácticas de los conocimientos que voy adquiriendo a lo largo de mi formación y poder probar distintos escenarios. 
+Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde documento configuraciones, diagramas y prácticas de los conocimientos que voy adquiriendo a lo largo de mi formación de y poder probar distintos escenarios. 
 
 ---
 
@@ -25,7 +25,8 @@ Este sitio es mi **laboratorio de redes y topologías con GNS3**, donde comparto
 | [Direcciones IP](topologia/direcciones-ip.md) | Direccionamiento IP por interfaz |
 | [Dispositivos](dispositivos/index.md) | Configuración de routers, switches y servidores |
 | [Servicios](servicios/index.md) | Servicios desplegados con Docker en servers |
-| [AWS](AWS/aws.md) | Uso de la vm de azure como proxy reverso |
+| [AWS](AWS/aws.md) | Uso de la vm de aws como proxy reverso |
+| [OCI](OCI/oci.md) | Uso de la vm de oracle cloud para correr grafana y prometheus |
 
 ---
 
