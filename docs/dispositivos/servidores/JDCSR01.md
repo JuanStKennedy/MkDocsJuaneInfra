@@ -11,7 +11,7 @@ iface ens4 inet static
         address 172.16.10.11
         netmask 255.255.255.0
         gateway 172.16.10.1
-        dns-nameservers 8.8.8.
+        dns-nameservers 8.8.8.8
 ```
 
 ### Archivo `/etc/resolv.conf`

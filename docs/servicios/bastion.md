@@ -8,7 +8,17 @@ El servidor bastion (también conocido como "jump server" o "jump host") es un c
 
 **La solución:**
 
-1.  **Aislamiento:** Las interfaces de gestión de los routers y switches (ej. `JPROO2`, `JPSWC01`) solo tienen conectividad en la VLAN de Sysadmin (`172.16.10.0/24`). El tráfico de otras VLANs no puede llegar a ellas.
+1.  **Aislamiento:** Las interfaces de gestión de los routers y switches (ej. `JPROO2`, `JPSWC01`) solo tienen conectividad por SSH en la VLAN de Sysadmin (`172.16.10.0/24`). 
+
+  *Esta es la configuración que se debe de aplicar en los router y switches de la topología, creando una access-list:*
+  ```
+    conf t
+    ip access-list standard ADMIN_ONLY
+    permit host 172.16.10.10 !Ip del servidor de bastión
+    line vty 0 4
+    access-class ADMIN_ONLY in
+    exit
+  ```
 
 2.  **Acceso Remoto Seguro (Tailscale):**
     Se utiliza **Tailscale** (una VPN) para el acceso remoto. El servicio de Tailscale está activo tanto en el firewall **pfSense** (`JPFW01`) como en el **equipo personal** del administrador. Esto crea un túnel seguro sin exponer ningún puerto directamente a Internet.
@@ -28,7 +38,7 @@ El servidor bastion (también conocido como "jump server" o "jump host") es un c
 Para entrar a un router por ejemplo, el administrador debe seguir este proceso:
 
 1.  El administrador se conecta por SSH al servidor **Bastion**.
-2.  Una vez *dentro* del bastion, el administrador "salta" (jump) al dispositivo deseado (ej. `ssh JPRO02-admin@172.16.1.2`). Aquí entrariamos al Router cisco encargado del enrutamiento entre vlans.
+2.  Una vez *dentro* del bastion, el administrador "salta" (jump) al dispositivo deseado (ej. `ssh JPRO02-admin@172.16.1.2`). Aquí entrariamos al Router cisco encargado del enrutamiento entre vlans. 
 
 *Aquí se puede ver el flujo de acceso desde el bastion hasta el router cisco:*
 
@@ -39,7 +49,7 @@ Para entrar a un router por ejemplo, el administrador debe seguir este proceso:
 
 El bastion es un servidor Linux (Debian) mínimo, desplegado en la VLAN 10 (Sysadmin).
 
-* **Host:** `JJUMSRV01` (o el nombre que le diste)
+* **Host:** `JJUMSRV01` 
 * **VLAN:** 10 (Sysadmin)
 * **IP:** `172.16.10.10`
 * **Gateway:** `172.16.10.1`
@@ -55,19 +65,26 @@ Al intentar conectar desde el bastion (Debian moderno) a los dispositivos Cisco 
 Para forzar al cliente SSH del bastion a aceptar estos algoritmos viejos *solo* para esos dispositivos, se edita el archivo `~/.ssh/config` del usuario en el servidor bastion.
 
 ```title="~/.ssh/config (en el Bastion)"
-# --- Configuración para JPROO2 (Cisco IOS Viejo) ---
-Host 172.16.1.2
-  HostName 172.16.1.2
+# --- Configuración para JPROO2 ---
+Host 10.255.255.2
+  HostName 10.255.255.2
   User JPRO02-admin
-  # 1. Permite el intercambio de claves SHA-1
   KexAlgorithms +diffie-hellman-group14-sha1
-  # 2. Permite el tipo de clave de host RSA/SHA-1
   HostKeyAlgorithms +ssh-rsa
 
-# --- Configuración para JPSWC01 (si es necesario) ---
-Host 172.16.10.2
-  HostName 172.16.10.2
-  User cisco-admin
+# --- Configuración para JPSWC01 ---
+Host 172.16.1.3
+  HostName 172.16.1.3
+  User JPSWC01-admin
   KexAlgorithms +diffie-hellman-group14-sha1
   HostKeyAlgorithms +ssh-rsa
+
+# --- Configuración para JPSWA01 ---
+Host 172.16.1.4
+  HostName 172.16.1.4
+  User JPSWA01-admin
+  KexAlgorithms +diffie-hellman-group14-sha1
+  HostKeyAlgorithms +ssh-rsa  
 ```
+
+> En el caso para el router VyOS no sería necesario está config, no aplica.
