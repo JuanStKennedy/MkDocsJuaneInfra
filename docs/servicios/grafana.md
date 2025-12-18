@@ -4,15 +4,13 @@ Este stack proporciona la capa de **Observabilidad y Telemetría** de la red. A 
 
 Este servicio se ejecuta en una instancia de **Oracle Cloud Infrastructure (OCI)**, fuera de la red física del laboratorio.
     
-La conexión con los dispositivos locales (VyOS, PfSense) se realiza de forma segura y transparente a través de un túnel **Tailscale**.
+La conexión con los dispositivos locales se realiza de forma segura y transparente a través de un túnel **Tailscale**.
 
 ## 🏗️ Arquitectura de Red
 
-El despliegue sigue un modelo de seguridad **Zero Trust / Dark Service**. 
-
 * **No hay puertos expuestos a Internet:** Los puertos 3000 (Grafana) y 9090 (Prometheus) están bloqueados en el firewall de Oracle.
 * **Acceso VPN:** Para ver los dashboards o consultar datos, es obligatorio estar conectado a la red Tailscale.
-* **Recolección de Datos:** Prometheus (en la nube) alcanza las IPs privadas de la LAN (`172.16.99.x`) enrutando el tráfico a través del nodo Tailscale local (Subnet Router).
+* **Recolección de Datos:** Prometheus (en la nube) alcanza las IPs privadas de la LAN (`192.168.1.x`) enrutando el tráfico a través del nodo Tailscale local (Subnet Router).
 
 
 
