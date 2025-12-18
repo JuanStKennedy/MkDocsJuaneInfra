@@ -12,7 +12,7 @@ El objetivo de Homer es simple: proporcionar un **punto de acceso único y centr
 
 El dashboard de Homer está organizado en grupos lógicos (Gestión, Red, etc.) y muestra una tarjeta para cada servicio.
 
-![HomerDashboard](../assets/homerLab.png)
+![HomerDashboard](../assets/homer-dashboard.png)
 
 
 
@@ -30,47 +30,86 @@ subtitle: "Dashboard de Servicios"
 icon: "fas fa-house-laptop"
 
 # Columnas de la página de inicio
-columns: "3" 
-
+columns: "4"
 defaults:
   layout: list
   colorTheme: dark
 
-footer: 'Hecho con ❤️ para mi Infrastructure Lab | <a href="juanesiecola@gmail.com" target="_blank">Mi Correo</a>'
-
-theme: default 
+# Lista de servicios
 services:
   # --- Grupo 1: Gestión y Monitoreo ---
   - name: "Gestión y Monitoreo"
-    icon: "fas fa-heartbeat" 
+    icon: "fas fa-heartbeat"
     items:
       # --- NetBox ---
       - name: "NetBox (SoT)"
-        logo: "assets/icons/netbox.svg" 
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/netbox.png"
         subtitle: "Base de Datos de Red (SoT)"
         tag: "infra"
-        url: "https://netbox.js-lab-uy.ddnsfree.com"
-
+        url: "https://netbox.js-lab-uy.duckdns.org"
+        target: "_blank"
       # --- Uptime Kuma ---
       - name: "Uptime Kuma"
-        logo: "assets/icons/uptime-kuma.svg" 
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/uptime-kuma.png"
         subtitle: "Monitoreo de Servicios"
         tag: "monitoring"
-        url: "https://kuma.js-lab-uy.ddnsfree.com"
+        url: "https://kuma.js-lab-uy.duckdns.org"
+        target: "_blank"
 
-  # --- Grupo 2: Red y Laboratorio ---
   - name: "Red y Laboratorio"
     icon: "fas fa-network-wired"
     items:
-      # --- pfSense ---
+      # --- PfSense ---
       - name: "pfSense (Firewall)"
-        logo: "assets/icons/pfsense-light.svg"
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/pfsense.png"
         subtitle: "Gateway y Firewall"
-        tag: "network"
+        tag: "firewall"
         url: "http://100.127.26.75/"
+        target: "_blank"
+      # --- Nginx proxy Manager ---
+      - name: "Nginx Proxy Manager (Proxy Reverso)"
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/nginx-proxy-manager.png"
+        subtitle: "Proxy reverso en AWS"
+        tag: "reverse proxy"
+        url: "http://100.74.135.89:81"
+        target: "_blank"
+      # --- Tailscale ---
+      - name: "Tailscale"
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/tailscale.png"
+        subtitle: "Maquinas de la Tailnet"
+        tag: "vpn"
+        url: "https://login.tailscale.com/admin/machines"
+        target: "_blank"
+
+  - name: "Observabilidad"
+    icon: "fas fa-chart-line"
+    items:
+      - name: "Grafana"
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/grafana.png"
+        subtitle: "Monitoreo de equipos"
+        tag: "observability"
+        url: "http://100.124.242.122:3000"
+        target: "_blank"
+      - name: "Prometheus"
+        logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/prometheus.png"
+        subtitle: "Recolector de métricas"
+        tag: "metrics"
+        target: "_blank"
+        url: "http://100.124.242.122:9090/"
+
+  # --- Grupo 3: Documentación ---
+  - name: "Documentación"
+    icon: "fas fa-book"
+    items:
+      - name: "Portfolio (MkDocs)"
+        logo: "assets/icons/mkdocs-light.svg"
+        subtitle: "Documentación del Lab"
+        tag: "docs"
+        url: "http://192.168.1.50:8000"
+        target: "_blank"
 ```
 
-## 4. Despliegue (Docker)
+## 4. Despliegue con Docker
 
 ```yaml title="docker-compose.yml"
 services:

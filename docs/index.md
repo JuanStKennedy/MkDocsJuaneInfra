@@ -10,7 +10,7 @@ Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde 
 - **Direcciones IP y VLANs:** planes de direccionamiento, tablas y rangos.  
 - **Enrutamiento y protocolos:** OSPF, rutas estáticas, redistribución entre routers y firewall.  
 - **Dispositivos individuales:** configuraciones de routers, switches, servidores y firewall.  
-- **Notas y cambios:** registro de pruebas, mejoras y ajustes de laboratorio.
+- **Servicios desplegados con Docker:** despliegue de servicios utilizando la herramienta docker-compose en equipos de la topología y VMs en la nube.
 
 ---
 
@@ -36,8 +36,8 @@ Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde 
 2. Cada sección incluye información sobre lo implementado.  
 3. Se incluyen imágenes, tablas y snippets de configuración.  
 
-> :material-alert: Este sitio está en constante actualización. Revisa periódicamente para ver cambios en las topologías y servicios. Es probable que los enlaces
-no funcionen ya que seguramente la computadora esté apagada y esté todo caído. 
+> :material-alert: Este sitio documenta un entorno de infraestructura en desarrollo activo. 
+    Ten en cuenta que los enlaces a servicios en vivo (Homer, kuma, netbox) dependen de un host físico que **no opera en régimen 24/7**, por lo que es probable que los encuentres inactivos fuera de horario de pruebas.
 
 ---
 

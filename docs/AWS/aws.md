@@ -27,7 +27,7 @@ El tráfico público ingresa por AWS y viaja de forma segura hacia el laboratori
 4. **Nginx Proxy Manager** termina SSL y aplica las reglas del Reverse Proxy.
 5. NPM reenvía la petición al servicio interno (`172.16.200.50:8000`).
 6. **Tailscale** transporta el tráfico de manera cifrada hacia pfSense.
-7. **pfSense** reenvía el paquete hacia el servicio destino.
+7. **pfSense** reenvía el paquete hacia el servicio destino dentro de la red interna.
 
 **Vista de la interfaz de Nginx Proxy Manager (NPM) que muestra el certificado wildcard *.js-lab-uy.duckdns.org. Este certificado fue emitido automáticamente por Let's Encrypt usando el DDNS (DuckDNS) y es utilizado por todos los Proxy Hosts (NetBox, Kuma, Homer), centralizando la seguridad SSL y la renovación automática.**
 

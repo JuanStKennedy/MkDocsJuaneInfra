@@ -4,9 +4,11 @@
 
 Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en dominios de broadcast más pequeños. En esta topología, la arquitectura utilizada es **Router-on-a-Stick**.
 
-* El switch de acceso (`JPSWA01`) asigna los puertos a las VLANs.
-* El switch core (`JPSWC01`) agrega las conexiones troncales.
-* El router (`JPROO2`) realiza todo el enrutamiento Inter-VLAN.
+* El switch de acceso (JPSWA01): Utiliza puertos de acceso para asignar los dispositivos a sus respectivas VLANs y conecta con el Core mediante un enlace troncal.
+
+* El switch core (JPSWC01): Agrega las conexiones utilizando puertos troncales (trunks) para permitir el paso de todas las VLANs.
+
+* El router (JPROO2): Recibe el tráfico etiquetado a través de un enlace troncal y realiza el enrutamiento Inter-VLAN.
 
 ## 2. Tabla de VLANs
 

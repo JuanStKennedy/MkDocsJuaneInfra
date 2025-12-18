@@ -1,0 +1,10 @@
+/* Ensanchar la grilla principal */
+.md-grid {
+    max-width: 80%;
+}
+
+/* Pero mantener los párrafos de texto "legibles" (no tan anchos) */
+.md-content__inner {
+    max-width: 800px; 
+    margin: 0 auto; /* Centrarlo */
+}

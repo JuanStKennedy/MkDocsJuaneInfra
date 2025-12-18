@@ -28,11 +28,11 @@ Kuma está configurado para vigilar los componentes más importantes de la topol
 
 * **Monitores Ping (ICMP):**
     * `Gateway pfSense (10.10.0.1)`: El monitor más crítico. Si este se cae, la red está rota.
-    * `Gateway JPROO2 (172.16.1.1)`: Verifica que el router de las VLANs esté en línea.
+    * `Loopback JPROO2 (10.255.255.2)`: Verifica que el router de las VLANs esté en línea.
     * `Servidor Bastion (172.16.10.10)`: Asegura que el punto de acceso SSH esté vivo.
 
 * **Monitores de Certificados SSL/TLS:**
-    * `https://netbox.js-lab-uy.ddnsfree.com/`: Kuma también se encarga de monitorear la fecha de vencimiento de los certificados SSL/TLS, avisando 30 días antes de que expiren.
+    * `https://netbox.js-lab-uy.duckdns.org/`: Kuma también se encarga de monitorear la fecha de vencimiento de los certificados SSL/TLS, avisando 30 días antes de que expiren.
 
 ## 4. Despliegue (Docker)
 
