@@ -59,8 +59,8 @@ plugins:
   - i18n:
       default_language: es
       languages:
-        en: English
-        es: Español
+        - en 
+        - es
   - glightbox:
       options:
         selector: 'glightbox'
