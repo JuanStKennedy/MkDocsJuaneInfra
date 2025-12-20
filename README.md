@@ -1,6 +1,6 @@
 # 🛠️ Networking Home Lab
 
-Bienvenido a la documentación de mi laboratorio personal. Este espacio es el registro técnico de mi aprendizaje en Linux, networking y observabilidad. Mi enfoque está en la **interconectividad híbrida**.
+Bienvenido a la documentación de mi laboratorio personal. Este espacio es el registro técnico de mi aprendizaje en Linux, networking y observabilidad. Mi enfoque está en la **conectividad híbrida**.
 
 ---
 
