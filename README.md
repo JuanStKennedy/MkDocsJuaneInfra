@@ -8,12 +8,12 @@ Bienvenido a la documentación de mi laboratorio personal. Este espacio es el re
 
 Mi laboratorio combina dispositivos locales **On-Premise** con **Cloud Publica** (Oracle/AWS), interconectados mediante una VPN (Tailscale).
 
-### 1. Gestión de Identidad y Directorio (:material-account-group:)
+### 1. Gestión de Identidad y Directorio 
 He implementado un entorno de dominio centralizado para gestionar recursos y seguridad:
 * **Controlador de Dominio:** Samba sobre **Debian**, configurado como Domain Controller (AD DC).
 * **Integración Linux:** Autenticación centralizada en servidores Linux mediante SSSD y resolución de nombres integrada en el dominio.
 
-### 2. Conectividad y Redes Híbridas (:material-lan:)
+### 2. Conectividad y Redes Híbridas 
 El laboratorio no es una isla; está diseñado para simular un entorno empresarial real:
 * **SD-WAN / Mesh VPN:** Uso de **Tailscale** para crear un túnel persistente entre mi red local y nodos en la nube (Oracle Cloud / AWS).
 * **Simulación de Topologías:** Diseño y testeo de enrutamiento estático y dinámico en **GNS3** con imágenes Cisco IOS.
@@ -21,7 +21,7 @@ El laboratorio no es una isla; está diseñado para simular un entorno empresari
 
 
 
-### 3. Stack de Monitoreo y Observabilidad (:material-chart-bell-curve-cumulative:)
+### 3. Stack de Monitoreo y Observabilidad 
 Para garantizar la salud de los servicios, implementé un pipeline de métricas basado en contenedores:
 * **Recolección:** **Prometheus** como motor de base de datos de series temporales.
 * **Exporters:** Uso de `snmp_exporter` para obtener datos en tiempo real de equipos de red (Cisco/VyOS).
@@ -30,7 +30,7 @@ Para garantizar la salud de los servicios, implementé un pipeline de métricas 
 
 ---
 
-## 🛠️ Tecnologías "Hands-On"
+## 🛠️ Tecnologías Utilizadas
 
 | Categoría | Herramientas y Protocolos |
 | :--- | :--- |
