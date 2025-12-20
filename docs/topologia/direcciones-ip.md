@@ -14,8 +14,8 @@ Este router maneja el enrutamiento Inter-VLAN (Router-on-a-Stick).
 | G0/0.5 | Gateway VLAN 5 (Datacenter) | 5 | 172.16.5.1 | /24 |
 | G0/0.10 | Gateway VLAN 10 (Sysadmin) | 10 | 172.16.10.1 | /24 |
 | G0/0.200 | Gateway VLAN 200 (Dev) | 200 | 172.16.200.1 | /24 |
-| G0/0 | Enlace a JPROO1 (Core) | N/A | 10.10.1.2 | /30 |
-| lo | OSPF Router-ID | 2.2.2.2 | /32 |
+| G0/0 | Enlace a JPROO1 (VyOS) | N/A | 10.10.1.2 | /30 |
+| LoopBack | Administración | N/A | 10.255.255.2 | /32 |
 
 ### JPROO1 (Router VyOS)
 
@@ -25,7 +25,8 @@ Este router actúa como el núcleo de la red, conectando el router Cisco con el 
 | :--- | :--- | :--- | :---: |
 | eth1 | Enlace a JPROO2 (Cisco) | 10.10.1.1 | /30 |
 | eth0 | Enlace a JPFW01 (pfSense) | 10.10.0.2 | /30 |
-| lo | OSPF Router-ID | 1.1.1.1 | /32 |
+| LoopBack | Administración | 10.255.255.1 | /32 |
+
 
 ### JPFW01 (Firewall pfSense)
 
@@ -36,17 +37,18 @@ Este es el dispositivo de borde, encargado del NAT y la seguridad.
 | em2 | Conexión a JPROO1 | Enlace | 10.10.0.1 | /30 |
 | em1 | Red de Management | Management | 192.168.1.1 | /24 |
 | em0 | Conexión a Internet (WAN) | WAN | DHCP | N/A |
+| Tailscale0 | Conexión VPN para compartir rutas | Tailscale | 100.127.26.75 | N/A|
 
 ---
 
 ## 2. Gestión de Red (Switches)
 
-Para poder administrar los switches por SSH o web, estos necesitan una IP en una VLAN de gestión. 
+Para poder administrar los switches por SSH necesitamos una IP, en los Routers por ejemplo usamos la IP asignada en la interfaz de loopback, pero estos necesitan una IP en una VLAN de gestión. 
 
 | Dispositivo | Propósito | VLAN | Dirección IP | Gateway |
 | :--- | :--- | :---: | :--- | :--- |
-| JPSWC01 | IP de Gestión | 1 | 172.16.1.3 | 172.16.1.2 |
-| JPSWA01 | IP de Gestión | 1 | 172.16.1.4 | 172.16.1.2 |
+| JPSWC01 | IP de Gestión | 1 | 172.16.1.3 | 172.16.1.1 (Router Cisco) |
+| JPSWA01 | IP de Gestión | 1 | 172.16.1.4 | 172.16.1.1 (Router Cisco) |
 
 ---
 

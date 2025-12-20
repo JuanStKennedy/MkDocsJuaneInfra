@@ -62,7 +62,7 @@ El componente clave es Tailscale.
 ![TailscaleMachines](../assets/tailscale1.png)
 
 ### 3.2 Subnet Routes (que comparte PfSense)
-![TailscaleSubnets](../assets/tailscale2.png)
+![TailscaleSubnets](../assets/imagen2.png)
 
 Esto significa que la VM de AWS sabe cómo llegar a `172.16.5.100` como si estuviera en su misma red local.
 

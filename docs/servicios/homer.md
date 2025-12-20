@@ -1,4 +1,4 @@
-# :doughnut: Homer (Portal de Servicios)
+# :material-chart-donut: Homer (Portal de Servicios)
 
 > **URL de Acceso:** `https://homer.js-lab-uy.duckdns.org`
 

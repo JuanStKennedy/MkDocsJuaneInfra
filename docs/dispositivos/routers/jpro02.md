@@ -2,8 +2,10 @@
 
 Este es el router principal que gestiona el enrutamiento Inter-VLAN (Router-on-a-Stick) y se conecta al core de la red.
 
-```bash
-Current configuration : 4043 bytes
+```
+Current configuration : 4498 bytes
+!
+! Last configuration change at 18:54:12 UTC Fri Dec 19 2025 by JPRO02-admin
 !
 version 15.9
 service timestamps debug datetime msec
@@ -69,7 +71,7 @@ ip tcp synwait-time 5
 !
 !
 interface Loopback0
- ip address 2.2.2.2 255.255.255.255
+ ip address 10.255.255.2 255.255.255.255
 !
 interface GigabitEthernet0/0
  description "Hacia router vyos"
@@ -100,7 +102,7 @@ interface GigabitEthernet0/3
 !
 interface GigabitEthernet0/3.1
  encapsulation dot1Q 1 native
- ip address 172.16.1.2 255.255.255.0
+ ip address 172.16.1.1 255.255.255.0
 !
 interface GigabitEthernet0/3.5
  encapsulation dot1Q 5
@@ -110,13 +112,17 @@ interface GigabitEthernet0/3.10
  encapsulation dot1Q 10
  ip address 172.16.10.1 255.255.255.0
 !
+interface GigabitEthernet0/3.99
+ encapsulation dot1Q 99
+ ip address 172.16.99.30 255.255.255.0
+!
 interface GigabitEthernet0/3.200
  encapsulation dot1Q 200
  ip address 172.16.200.1 255.255.255.0
 !
 router ospf 1
- network 2.2.2.2 0.0.0.0 area 10
  network 10.10.1.0 0.0.0.3 area 10
+ network 10.255.255.2 0.0.0.0 area 10
  network 172.16.1.0 0.0.0.255 area 10
  network 172.16.5.0 0.0.0.255 area 10
  network 172.16.10.0 0.0.0.255 area 10
@@ -129,8 +135,15 @@ no ip http server
 no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 10.10.1.1
 !
+ip access-list standard ADMIN_ONLY
+ permit 172.16.10.10
+!
 ipv6 ioam timestamp
 !
+snmp-server community public RO
+snmp-server location "GNS3 Lab - Network Core"
+snmp-server chassis-id
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
 !
 !
 control-plane
@@ -172,6 +185,7 @@ line aux 0
  privilege level 15
  logging synchronous
 line vty 0 4
+ access-class ADMIN_ONLY in
  login local
  transport input ssh
 !

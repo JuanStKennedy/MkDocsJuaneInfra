@@ -2,10 +2,10 @@
 
 Este switch actúa como el **núcleo (core)** de la red. Su única función es agregar los enlaces troncales (trunks) y conectar el switch de acceso (`JPSWA01`) con el router principal (`JPROO2`).
 
-```bash
-Current configuration : 3917 bytes
+```
+Current configuration : 4139 bytes
 !
-! Last configuration change at 21:59:12 UTC Sat Nov 8 2025
+! Last configuration change at 19:41:33 UTC Fri Dec 19 2025
 !
 version 15.2
 service timestamps debug datetime msec
@@ -127,16 +127,24 @@ interface Vlan1
  description "Vlan administrativa"
  ip address 172.16.1.3 255.255.255.0
 !
+interface Vlan99
+ ip address 172.16.99.10 255.255.255.0
+!
 ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
 !
-ip route 0.0.0.0 0.0.0.0 172.16.1.2
+ip route 0.0.0.0 0.0.0.0 172.16.1.1
+!
+ip access-list standard ADMIN_ONLY
+ permit 172.16.10.10
 !
 !
 !
 !
+snmp-server community public RO
+snmp-server location "Topologia red interna"
 !
 control-plane
 !
@@ -171,6 +179,7 @@ banner login ^C
 line con 0
 line aux 0
 line vty 0 4
+ access-class ADMIN_ONLY in
  login local
  transport input ssh
 !

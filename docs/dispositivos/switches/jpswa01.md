@@ -2,10 +2,10 @@
 
 Este es el **switch de acceso** que conecta los dispositivos finales (servidores) a la red. Su principal responsabilidad es asignar cada puerto a su VLAN correspondiente (VLAN 5, 10, 200) y conectarse al switch core (`JPSWC01`) mediante un enlace troncal.
 
-```bash
-Current configuration : 4024 bytes
+```
+Current configuration : 4304 bytes
 !
-! Last configuration change at 21:59:13 UTC Sat Nov 8 2025
+! Last configuration change at 19:40:57 UTC Fri Dec 19 2025
 !
 version 15.2
 service timestamps debug datetime msec
@@ -100,6 +100,8 @@ interface GigabitEthernet2/0
  negotiation auto
 !
 interface GigabitEthernet2/1
+ switchport access vlan 10
+ switchport mode access
  media-type rj45
  negotiation auto
 !
@@ -132,16 +134,24 @@ interface GigabitEthernet3/3
 interface Vlan1
  ip address 172.16.1.4 255.255.255.0
 !
+interface Vlan99
+ ip address 172.16.99.40 255.255.255.0
+!
 ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
 !
-ip route 0.0.0.0 0.0.0.0 172.16.1.2
+ip route 0.0.0.0 0.0.0.0 172.16.1.1
+!
+ip access-list standard ADMIN_ONLY
+ permit 172.16.10.10
 !
 !
 !
 !
+snmp-server community public RO
+snmp-server location "switch de acceso red interna"
 !
 control-plane
 !
@@ -176,6 +186,7 @@ banner login ^C
 line con 0
 line aux 0
 line vty 0 4
+ access-class ADMIN_ONLY in
  login local
  transport input ssh
 !

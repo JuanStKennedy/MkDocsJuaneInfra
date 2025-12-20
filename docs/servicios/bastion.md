@@ -1,4 +1,4 @@
-# :lock: Bastion (Jump Server)
+# :octicons-lock-16: Bastion (Jump Server)
 
 El servidor bastion (también conocido como "jump server" o "jump host") es un componente de seguridad crítico en la topología. Actúa como la **única puerta de entrada** autorizada a la red de gestión (`172.16.10.0/24`) desde redes externas o menos seguras.
 

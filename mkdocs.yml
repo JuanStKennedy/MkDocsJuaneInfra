@@ -1,7 +1,9 @@
-site_name: Juane’s Infrastructure Lab
+site_name: Juane’s Home Lab
 site_url: https://mydomain.org/mysite
+site_author: Juan Siécola
 theme:
-  logo: assets/icon.png
+  icon:
+    logo: 'material/remote-desktop'
   favicon: assets/icon.png
   language: es
   font:

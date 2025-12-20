@@ -1,4 +1,4 @@
-# :notebook_with_decorative_cover: NetBox (Source of Truth)
+# :material-file-document: NetBox (Source of Truth)
 
 > **URL de Acceso:** `https://netbox.js-lab-uy.duckdns.org`
 
@@ -39,7 +39,7 @@ La base de datos de NetBox ha sido poblada para reflejar exactamente la topolog�
 
 ## 4. Despliegue (Docker)
 
-NetBox se ejecuta como una pila (stack) de contenedores de Docker, gestionada por `docker-compose`. Esta pila incluye la propia aplicación de NetBox, una base de datos PostgreSQL y un caché de Redis.
+NetBox se ejecuta como una pila (stack) de contenedores de Docker, gestionada por `docker-compose`. Esta pila incluye la propia aplicación de NetBox, una base de datos PostgreSQL y un caché de Redis. Para su implementación se utilizó un repositorio público de github llamado NetBox-Community [netbox-community](https://github.com/netbox-community/netbox).
 
 
 ```yaml title="docker-compose.yml"

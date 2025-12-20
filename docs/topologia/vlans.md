@@ -35,20 +35,22 @@ Estos puertos están asignados a una única VLAN.
 * **Interfaz `G1/0` (Dev):**
     * VLAN: 200
     * Dispositivo: `JDEVSR01`
-* **Interfaz `G2/0` (Sysadmin):**
+* **Interfaz `G2/0` y `G2/1`  (Sysadmin):**
     * VLAN: 10
-    * Dispositivo: `JJUMSR01`
+    * Dispositivos: `JJUMSR01`, `JDCSR01`
 
 **Configuración del JPSWA01**
 ```bash title="Salida de JPSWA01#show vlan brief"
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
-1    default                          active    Gi0/2, Gi0/3, Gi1/1, Gi1/2
-                                                Gi1/3, Gi2/1, Gi2/2, Gi2/3
-                                                Gi3/0, Gi3/2, Gi3/3
+1    default                          active    Gi0/2, Gi0/3, Gi1/1, Gi1/2, Gi1/3, Gi2/2, Gi2/3, Gi3/0, Gi3/2, Gi3/3
 5    datacenter                       active    Gi0/0, Gi0/1
-10   sysadmin                         active    Gi2/0
+10   sysadmin                         active    Gi2/0, Gi2/1
 200  dev                              active    Gi1/0
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
 
 ```
 

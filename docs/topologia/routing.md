@@ -24,18 +24,19 @@ El enrutamiento entre las VLANs de la red (1, 5, 10, 200) se maneja en el router
 * **Interfaz Física:** `GigabitEthernet0/0`
 * **Concepto:** Se crean sub-interfaces lógicas en `G0/0`, una por cada VLAN. Cada sub-interfaz se etiqueta con el ID de la VLAN (usando `encapsulation dot1q [vlan-id]`) y se le asigna la dirección IP del gateway para esa subred.
 
-```bash
-JPRO02#show ip interface brief
+```
+show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
 GigabitEthernet0/0         10.10.1.2       YES NVRAM  up                    up
 GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
 GigabitEthernet0/2         unassigned      YES NVRAM  administratively down down
 GigabitEthernet0/3         unassigned      YES NVRAM  up                    up
-GigabitEthernet0/3.1       172.16.1.2      YES NVRAM  up                    up
+GigabitEthernet0/3.1       172.16.1.1      YES NVRAM  up                    up
 GigabitEthernet0/3.5       172.16.5.1      YES NVRAM  up                    up
 GigabitEthernet0/3.10      172.16.10.1     YES NVRAM  up                    up
+GigabitEthernet0/3.99      172.16.99.30    YES NVRAM  up                    up
 GigabitEthernet0/3.200     172.16.200.1    YES NVRAM  up                    up
-Loopback0                  2.2.2.2         YES NVRAM  up                    up
+Loopback0                  10.255.255.2    YES NVRAM  up                    up
 ```
 
 
@@ -60,16 +61,14 @@ Para intercambiar rutas automáticamente entre los routers `JPROO2` (Cisco) y `J
 2.  La red del enlace vecino (hacia `JPROO1`).
 3.  Tiene una **ruta estática por defecto** (`0.0.0.0/0`) que apunta al router vyos `JPRO01` (en `10.10.1.1`). 
 
-```bash title="Configuración OSPF en JPROO2 (Cisco) y Static Route"
+```title="Configuración OSPF en JPROO2 (Cisco) y Static Route"
 router ospf 1
- ! Publica las redes de las VLANs
+ network 10.10.1.0 0.0.0.3 area 10
+ network 10.255.255.2 0.0.0.0 area 10
  network 172.16.1.0 0.0.0.255 area 10
  network 172.16.5.0 0.0.0.255 area 10
  network 172.16.10.0 0.0.0.255 area 10
  network 172.16.200.0 0.0.0.255 area 10
- 
- ! Publica el enlace vecino (hacia JPROO1)
- network 10.10.1.0 0.0.0.3 area 0
 
  ! Ruta estática (hacia JPROO1)
  ip route 0.0.0.0 0.0.0.0 10.10.1.1
@@ -78,27 +77,30 @@ router ospf 1
 ### 3.2 Configuración en `JPROO1` (VyOS)
 
 1.  Publica su enlace con `JPROO2` (la red `10.10.1.0/30`).
-2.  Tiene una **ruta estática por defecto** (`0.0.0.0/0`) que apunta al firewall `JPFW01` (en `10.10.0.1`).
+2.  Publica su enlace con `JPFW01` (la red `10.10.0.0/30`)
+3.  Tiene una **ruta estática por defecto** (`0.0.0.0/0`) que apunta al firewall `JPFW01` (en `10.10.0.1`).
+4.  Tiene una **ruta estática** para redirigir el tráfico de la vlan1 para administrar y monitorear los switches por SSH y SNMP.
 
-```bash title="Configuración de JPROO1 (VyOS)"
+``` title="Configuración de JPROO1 (VyOS)"
 protocols {
     ospf {
-        area 10 {
-            network 10.10.1.0/30
-            network 1.1.1.1/32
-        }
-    }
-    static {
-        route 0.0.0.0/0 {
-            next-hop 10.10.0.1 {
-            }
-        }
-    }
-}
+     area 10 {
+         network 10.10.1.0/30
+         network 10.10.0.0/30
+         network 10.255.255.1/32
+     }
+ }
+ static {
+     route 0.0.0.0/0 {
+         next-hop 10.10.0.1 {
+         }
+     }
+     route 172.16.1.0/24 {
+         next-hop 10.10.1.2 {
+         }
+     }
+ }
 ```
-
-
-
 
 ---
 

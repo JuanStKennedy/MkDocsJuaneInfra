@@ -1,4 +1,4 @@
-# Bienvenido a Juane’s Infrastructure Lab 🖧
+# Bienvenido a Juane’s Home Lab 🖧
 
 Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde documento configuraciones, diagramas y prácticas de los conocimientos que voy adquiriendo a lo largo de mi formación de y poder probar distintos escenarios. 
 
@@ -6,8 +6,8 @@ Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde 
 
 ## :octicons-pin-16: Qué encontrarás aquí
 
-- **Topologías de red:** diagramas y mapas de conectividad simulados en GNS3.  
-- **Direcciones IP y VLANs:** planes de direccionamiento, tablas y rangos.  
+- **Topología de red:** Diagrama de la topología implementada con su correspondiente servicio.  
+- **Direcciones IP y VLANs:** planes de direccionamiento, tablas y rangos IpV4.  
 - **Enrutamiento y protocolos:** OSPF, rutas estáticas, redistribución entre routers y firewall.  
 - **Dispositivos individuales:** configuraciones de routers, switches, servidores y firewall.  
 - **Servicios desplegados con Docker:** despliegue de servicios utilizando la herramienta docker-compose en equipos de la topología y VMs en la nube.

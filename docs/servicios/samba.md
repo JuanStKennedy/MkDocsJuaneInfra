@@ -1,4 +1,4 @@
-# :key: Samba AD DC (Identity Provider)
+# :octicons-key-16: Samba AD DC (Identity Provider)
 
 El Controlador de Dominio de Samba (Samba AD DC) es el corazón de la identidad en el laboratorio, proporcionando servicios de LDAP (Servicio de Directorio) y Kerberos (Autenticación). Permite la autenticación centralizada y el inicio de sesión único (SSO) para todos los hosts y servicios.
 
@@ -56,6 +56,11 @@ y organizar la red.
 Este script crea OUs, grupos de seguridad y los usuarios con el formato nombre.apellido:
 
 ```bash
+#!/bin/bash
+
+DOMAIN="JS-LAB-UY"
+REALM="${DOMAIN}.DUCKDNS.ORG"
+
 samba-tool ou create "ou=${REALM},dc=${DOMAIN},dc=duckdns,dc=org"
 
 # Usuarios
@@ -98,7 +103,7 @@ samba-tool user create "carlos.martinez" Password123! --userou="ou=Sysadmins,ou=
 samba-tool user create "laura.lopez" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
 samba-tool user create "juan.hernandez" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
 samba-tool user create "jesus.guibert" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "juan.siecola" Juaneduardo25/ --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "juan.siecola" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
 
 # Usuarios Devs
 samba-tool user create "david.gomez" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
@@ -161,3 +166,17 @@ EOF
 sleep 5
 sudo systemctl restart sssd
 ```
+
+## 4. Demostración en una máquina con Windows 10.
+
+En una máquina virtual con Windows 10, instalamos la característica usuarios y equipos de Active Directory, la unimos a nuestro dominio poniendo como DNS la ip de nuestro servidor JDCSR01 y una vez hecho eso, ya podemos gestionar todo desde ahí:
+
+***Estructura de las unidades organizacionales (OU) creadas con samba-tools***
+![windows-ou](../assets/windows1.png)
+
+***También podemos ver algunas de las propiedades del usuario como datos y los grupos que pertenece y administrar políticas***
+
+![windows-user-ad](../assets/windows2.png)
+![windows-user-ad](../assets/windows3.png)
+![windows-user-ad](../assets/windows4.png)
+

@@ -1,4 +1,4 @@
-# 📈 Uptime Kuma (Monitoreo)
+# :material-chart-line: Uptime Kuma (Monitoreo)
 
 > **URL de Acceso:** `https://kuma.js-lab-uy.duckdns.org`
 
@@ -33,6 +33,10 @@ Kuma está configurado para vigilar los componentes más importantes de la topol
 
 * **Monitores de Certificados SSL/TLS:**
     * `https://netbox.js-lab-uy.duckdns.org/`: Kuma también se encarga de monitorear la fecha de vencimiento de los certificados SSL/TLS, avisando 30 días antes de que expiren.
+
+***En esta imagen podemos ver que el certificado SSL para el dominio https://netbox.js-lab-uy.duckdns.org/ vence en 67 días***
+
+![KumaSSL](../assets/kuma2.png)
 
 ## 4. Despliegue (Docker)
 

@@ -1,10 +1,11 @@
 # Configuración: JPROO1 (VyOS)
 
 Este es el router de núcleo que gestiona el enrutamiento entre el PfSense y el router cisco.
-```bash
- interfaces {
+```
+  interfaces {
      ethernet eth0 {
          address 10.10.0.2/30
+         description "hacia firewall PfSense"
          hw-id 0c:08:d8:d9:00:00
      }
      ethernet eth1 {
@@ -22,7 +23,7 @@ Este es el router de núcleo que gestiona el enrutamiento entre el PfSense y el 
          hw-id 0c:08:d8:d9:00:04
      }
      loopback lo {
-         address 1.1.1.1/32
+         address 10.255.255.1/32
      }
  }
  nat {
@@ -55,12 +56,17 @@ Este es el router de núcleo que gestiona el enrutamiento entre el PfSense y el 
      ospf {
          area 10 {
              network 10.10.1.0/30
-             network 1.1.1.1/32
+             network 10.10.0.0/30
+             network 10.255.255.1/32
          }
      }
      static {
          route 0.0.0.0/0 {
              next-hop 10.10.0.1 {
+             }
+         }
+         route 172.16.1.0/24 {
+             next-hop 10.10.1.2 {
              }
          }
      }
@@ -82,6 +88,13 @@ Este es el router de núcleo que gestiona el enrutamiento entre el PfSense y el 
          server time2.vyos.net {
          }
          server time3.vyos.net {
+         }
+     }
+     snmp {
+         community public {
+             authorization ro
+         }
+         listen-address 10.255.255.1 {
          }
      }
      ssh {
