@@ -56,11 +56,6 @@ markdown_extensions:
 
 plugins:
   - search
-  - i18n:
-      default_language: es
-      languages:
-        - en 
-        - es
   - glightbox:
       options:
         selector: 'glightbox'
