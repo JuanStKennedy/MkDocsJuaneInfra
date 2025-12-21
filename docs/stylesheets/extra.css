@@ -1,10 +1,22 @@
-/* Ensanchar la grilla principal */
+/* 1. Ensanchar la grilla principal para que use más pantalla */
 .md-grid {
-    max-width: 80%;
+    max-width: 80%; /* Un 90% es ideal para pantallas anchas sin quedar pegado al borde */
 }
 
-/* Pero mantener los párrafos de texto "legibles" (no tan anchos) */
-.md-content__inner {
-    max-width: 800px; 
-    margin: 0 auto; /* Centrarlo */
+/* 2. Darle más espacio al contenido central (el texto) */
+.md-content {
+    max-width: 65rem; /* Aumentamos de 45rem a 65rem para que el texto respire */
+}
+
+/* 3. Hacer que las cajas de código sean un poco más anchas */
+.md-typeset pre > code {
+    padding: 1em;
+}
+
+/* Hacer que los bloques de código y las tablas se sientan más amplios */
+.md-typeset div.arithmatex, 
+.md-typeset div.cell, 
+.md-typeset div.codehilite, 
+.md-typeset div.highlight {
+    margin-inline: 0; /* Elimina márgenes extra si los hay */
 }

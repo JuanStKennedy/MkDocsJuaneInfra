@@ -1,16 +1,16 @@
 # Bienvenido a Juane’s Home Lab 🖧
 
-Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde documento configuraciones, diagramas y prácticas de los conocimientos que voy adquiriendo a lo largo de mi formación de y poder probar distintos escenarios. 
+Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde documento configuraciones, diagramas y prácticas de los conocimientos que voy adquiriendo a lo largo de mi formación de y poder aplicarlos y probarlos en distintos escenarios.
 
 ---
 
 ## :octicons-pin-16: Qué encontrarás aquí
 
 - **Topología de red:** Diagrama de la topología implementada con su correspondiente servicio.  
-- **Direcciones IP y VLANs:** planes de direccionamiento, tablas y rangos IpV4.  
+- **Direcciones IP y VLANs:** Planes de direccionamiento, tablas y rangos IpV4.  
 - **Enrutamiento y protocolos:** OSPF, rutas estáticas, redistribución entre routers y firewall.  
-- **Dispositivos individuales:** configuraciones de routers, switches, servidores y firewall.  
-- **Servicios desplegados con Docker:** despliegue de servicios utilizando la herramienta docker-compose en equipos de la topología y VMs en la nube.
+- **Dispositivos individuales:** Configuraciones de routers, switches, servidores y firewall.  
+- **Servicios desplegados con Docker:** Despliegue de servicios utilizando la herramienta docker-compose en equipos de la topología y VMs en la nube.
 
 ---
 
@@ -36,8 +36,8 @@ Este sitio es mi **portfolio técnico y laboratorio de infraestructura**, donde 
 2. Cada sección incluye información sobre lo implementado.  
 3. Se incluyen imágenes, tablas y snippets de configuración.  
 
-> :material-alert: Este sitio documenta un entorno de infraestructura en desarrollo activo. 
-    Ten en cuenta que los enlaces a servicios en vivo (Homer, kuma, netbox) dependen de un host físico que **no opera en régimen 24/7**, por lo que es probable que los encuentres inactivos fuera de horario de pruebas.
+> :material-alert: Este sitio documenta un entorno de laboratorio en desarrollo activo. 
+    Ten en cuenta que los enlaces a servicios en vivo (Homer, Kuma, NetBox) dependen de un host físico que **no opera en régimen 24/7**, por lo que es probable que los encuentres inactivos fuera de horario de pruebas.
 
 ---
 
