@@ -12,7 +12,7 @@ Mi laboratorio combina dispositivos locales en **GNS3** con máquinas virtuales 
 He implementado un entorno de dominio centralizado para gestionar recursos y seguridad:
 * **Controlador de Dominio:** Samba sobre **Debian**, configurado como Domain Controller (AD DC).
 * **Integración Linux:** Autenticación centralizada en servidores Linux mediante SSSD y resolución de nombres integrada en el dominio.
-* **Instalación de RSAT en Windows:** Para administrar de manaera gráfica los usuarios, ous, grupos y políticas.
+* **Instalación de RSAT en Windows:** Para administrar de manera gráfica los usuarios, ous, grupos y políticas.
 
 ### 2. Conectividad y Redes Híbridas 
 El laboratorio no es una isla; está diseñado para simular un entorno empresarial real:
