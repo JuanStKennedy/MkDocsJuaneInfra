@@ -1,9 +1,11 @@
 # Monitoreo con Grafana y Prometheus
 
 ## 1. Resumen de Arquitectura
-El sistema de monitoreo opera en un modelo híbrido Cloud-OnPremise. El servidor principal se aloja en **Oracle Cloud Infraestructure (OCI)**, mientras que los dispositivos objetivos (Routers/Firewalls) se encuentran en una red local (Lab/On-Premise).
+El sistema de monitoreo opera en un modelo híbrido Cloud-OnPremise. El servidor principal (VM) se aloja en **Oracle Cloud Infraestructure (OCI)**, mientras que los dispositivos objetivos (Routers/Firewalls) se encuentran en una red local **(GNS3)**.
 
-La comunicación entre la nube y el sitio local se asegura mediante **Tailscale (VPN Mesh)**.
+La comunicación entre la nube y el sitio local se asegura mediante **Tailscale (VPN)**.
+
+---
 
 ## 2. Detalles de la Instancia (OCI)
 
@@ -29,8 +31,10 @@ El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas 
 3. **Transporte:** Los paquetes se encriptan y viajan por internet hacia el **Subnet Router** en el sitio local.
 4. **Destino:** El Subnet Router entrega la petición SNMP al PfSense en su red LAN.
 
-"Ventaja de Seguridad"
+>"Ventaja de Seguridad"
 Gracias a esta arquitectura, **no es necesario abrir el puerto UDP 161** en el firewall, minimizando posibles ataques a la red.
+
+---
 
 ## 3. Reglas de Firewall (Security Lists OCI)
 
@@ -44,7 +48,7 @@ Solo se mantienen las reglas por defecto de Oracle para administración básica.
 
 Dado que los puertos no están abiertos en la IP Pública, el acceso se realiza utilizando la **IP de Tailscale** del servidor.
 
-**Requisito:** El dispositivo desde donde se accede debe tener el cliente Tailscale conectado y estar dentro de la misma tailnet.
+**Requisito:** El dispositivo desde donde se accede debe tener el cliente Tailscale conectado y estar dentro de la misma Tailnet.
 
 | Servicio | URL de Acceso |
 | :--- | :--- |

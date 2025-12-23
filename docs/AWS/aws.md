@@ -12,7 +12,7 @@ El diseño aprovecha la gestión centralizada de NPM y mantiene la seguridad del
 | **AWS EC2 VM**    | Host del Proxy Reverso (pequeña y económica). |
 | **Docker / Docker Compose** | Entorno de ejecución de NPM. |
 | **Nginx Proxy Manager (NPM)** | Gestión gráfica de SSL (Let's Encrypt) y Reverse Proxy. |
-| **Tailscale** | Crea un túnel VPN cifrado entre AWS y el laboratorio. |
+| **Tailscale** | Crea un túnel VPN cifrado entre AWS y el laboratorio local en **GNS3**. |
 | **DNS Público** | DuckDNS apunta `*.js-lab-uy.duckdns.org` a la IP pública de AWS. |
 
 ---
@@ -29,17 +29,19 @@ El tráfico público ingresa por AWS y viaja de forma segura hacia el laboratori
 6. **Tailscale** transporta el tráfico de manera cifrada hacia pfSense.
 7. **pfSense** reenvía el paquete hacia el servicio destino dentro de la red interna.
 
-**Vista de la interfaz de Nginx Proxy Manager (NPM) que muestra el certificado wildcard *.js-lab-uy.duckdns.org. Este certificado fue emitido automáticamente por Let's Encrypt usando el DDNS (DuckDNS) y es utilizado por todos los Proxy Hosts (NetBox, Kuma, Homer), centralizando la seguridad SSL y la renovación automática.**
+***Vista de la interfaz de Nginx Proxy Manager (NPM) que muestra el certificado wildcard *.js-lab-uy.duckdns.org. Este certificado fue emitido automáticamente por Let's Encrypt usando el DDNS (DuckDNS) y es utilizado por todos los Proxy Hosts (NetBox, Kuma, Homer), centralizando la seguridad SSL y la renovación automática:***
 
 ![npmcertificates](../assets/npmcertificates.png)
 
-**Aquí se puede ver la configuración de proxy host del netbox**
+***Aquí se puede ver la configuración de proxy host para el servicio de NetBox:***
 
 ![netbox npm](../assets/netboxnpm.png)
 
-**Aquí se puede ver todos los proxy hosts activos**
+***Aquí se pueden ver todos los proxy hosts activos actualmente:***
 
 ![npmproxyhosts](../assets/npmproxyhosts.png)
+
+---
 
 ## 3. El Enlace: Tailscale (Enrutamiento de Subred)
 
@@ -66,10 +68,12 @@ El componente clave es Tailscale.
 
 Esto significa que la VM de AWS sabe cómo llegar a `172.16.5.100` como si estuviera en su misma red local.
 
+---
+
 ## 4. Instalación y Despliegue de NPM
 
 NPM se implementa mediante un contenedor con Docker Compose, y accedemos a el con la IP
-que proporciona tailscale a la vm por el puerto 81, para que no quede publico y solo los dispositivos que tienen acceso al túnel Tailscale, puedan alcanzar esa IP
+que proporciona Tailscale a la vm por el puerto 81, para que no quede publico y solo los dispositivos que tienen acceso al túnel Tailscale (Tailnet), puedan alcanzar esa IP.
 
 ```yaml title="docker-compose.yml"
 services:

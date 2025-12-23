@@ -1,6 +1,6 @@
 # :octicons-key-16: Samba AD DC (Identity Provider)
 
-El Controlador de Dominio de Samba (Samba AD DC) es el corazón de la identidad en el laboratorio, proporcionando servicios de LDAP (Servicio de Directorio) y Kerberos (Autenticación). Permite la autenticación centralizada y el inicio de sesión único (SSO) para todos los hosts y servicios.
+El Controlador de Dominio de Samba (Samba AD DC) es el corazón de la identidad en el laboratorio, proporcionando servicios de LDAP (Servicio de Directorio) y Kerberos (Autenticación). Permite la autenticación centralizada y el inicio de sesión único para todos los hosts y servicios.
 
 ## 1. Aprovisionamiento del Controlador de Dominio (JDCSR01)
 
@@ -11,7 +11,7 @@ El servicio Samba AD DC fue levantado sobre el servidor JDCSR01 con la siguiente
 
 DOMAIN="JS-LAB-UY"
 REALM="${DOMAIN}.DUCKDNS.ORG"
-ADMINPASSWORD="Passw0rd"
+ADMINPASSWORD=""
 sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
 apt update -y
@@ -99,26 +99,26 @@ samba-tool group add rrhh --groupou="ou=Grupos de Seguridad,ou=Grupos,ou=${REALM
 samba-tool group add proxmox-admins --groupou="ou=Grupos de Seguridad,ou=Grupos,ou=${REALM}"
 
 # Usuarios Sysadmins
-samba-tool user create "carlos.martinez" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "laura.lopez" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "juan.hernandez" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "jesus.guibert" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "juan.siecola" Password123! --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "carlos.martinez" --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "laura.lopez" --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "juan.hernandez" --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "jesus.guibert" --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "juan.siecola" --userou="ou=Sysadmins,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
 
 # Usuarios Devs
-samba-tool user create "david.gomez" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "sandra.ramirez" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "alejandro.torres" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "patricia.morales" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "javier.ortiz" Password123! --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "david.gomez" --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "sandra.ramirez" --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "alejandro.torres" --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "patricia.morales" --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "javier.ortiz" --userou="ou=Devs,ou=Sistemas,ou=Empleados,ou=Usuarios,ou=${REALM}"
 
 # Usuarios RRHH
-samba-tool user create "beatriz.navarro" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "raul.gil" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "maria.soto" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "antonio.castro" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "isabel.ramos" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
-samba-tool user create "jorge.vega" Password123! --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "beatriz.navarro" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "raul.gil" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "maria.soto" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "antonio.castro" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "isabel.ramos" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
+samba-tool user create "jorge.vega" --userou="ou=RRHH,ou=Empleados,ou=Usuarios,ou=${REALM}"
 
 samba-tool group addmembers proxmox-admins "jesus.guibert,juan.siecola"
 samba-tool group addmembers sysadmins "carlos.martinez,laura.lopez,juan.hernandez,jesus.guibert,juan.siecola" 
@@ -171,10 +171,10 @@ sudo systemctl restart sssd
 
 En una máquina virtual con Windows 10, instalamos la característica usuarios y equipos de Active Directory, la unimos a nuestro dominio poniendo como DNS la ip de nuestro servidor JDCSR01 y una vez hecho eso, ya podemos gestionar todo desde ahí:
 
-***Estructura de las unidades organizacionales (OU) creadas con samba-tools***
+***Estructura de las unidades organizacionales (OU) creadas con samba-tools:***
 ![windows-ou](../assets/windows1.png)
 
-***También podemos ver algunas de las propiedades del usuario como datos y los grupos que pertenece y administrar políticas***
+***También podemos ver algunas de las propiedades del usuario como datos y los grupos que pertenece y administrar políticas:***
 
 ![windows-user-ad](../assets/windows2.png)
 ![windows-user-ad](../assets/windows3.png)

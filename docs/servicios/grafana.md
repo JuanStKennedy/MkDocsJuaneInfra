@@ -21,51 +21,51 @@ La conexión con los dispositivos locales se realiza de forma segura y transpare
 
 ## Pasos que realicé para la configuración e implementación
 
-primero ejecutamos un apt update para actualizar los paquetes del sistema
+Primero ejecutamos un apt update para actualizar los paquetes del sistema:
 
 ```bash
 sudo apt update -y
 ```
 
-ahora ya podemos instalar tailscale desde la página oficial [https://tailscale.com/download](https://tailscale.com/download):
+Una vez actualizados los paquetes, ya podemos instalar tailscale desde la página oficial [https://tailscale.com/download](https://tailscale.com/download):
 
 ```bash
 curl -fsSL [https://tailscale.com/install.sh](https://tailscale.com/install.sh) | sh
 ```
 
-una vez instalado tailscale podemos ejecutar el comando sudo tailscale up:
+Ahora podemos ejecutar el comando sudo tailscale up:
 
 ```bash
 sudo tailscale up
 ```
 
-hacemos click en el enlace:
+Hacemos click en el enlace:
 
 ![imagen.png](../assets/imagen0.png)
 
-> *nos pedirá que ingresemos una cuenta y listo, nuestra máquina virtual de oracle estará dentro de nuestra tailnet.*
+> *Nos pedirá que ingresemos una cuenta personal y una vez seleccionada, nuestra máquina virtual de oracle estará dentro de nuestra tailnet.*
 
-Ahora por la consola debemos aceptar las rutas que está compartiendo/advirtiendo el firewall pfsense:
+Luego por la consola debemos aceptar las rutas que está compartiendo/advirtiendo el firewall PfSense:
 
 ![imagen.png3](../assets/imagen2.png)
 
-ahora aceptamos las rutas en la instancia de oracle con el comando:
+Aceptamos las rutas en la instancia de oracle con el comando:
 
 ```bash
 sudo tailscale set --accept-routes
 ```
 
-y ahora ya podremos hacerle ping a la interfaz de loopback que tiene nuestro router JPRO02, de nuestra topología local en GNS3:
+Posteriormente ya podremos hacerle ping a la interfaz de loopback que tiene nuestro router JPRO02, de nuestra topología local en GNS3:
 
 ![imagen.png4](../assets/imagen3.png)
 
-una vez actualizado el sistema e instalado tailscale debemos instalar el paquete **`snmp`**  que contiene la herramienta `snmpwalk` .
+Una vez actualizado el sistema e instalado tailscale debemos instalar el paquete **`snmp`**  que contiene la herramienta `snmpwalk`:
 
 ```bash
 sudo apt install snmp
 ```
 
-Una vez instalado, ahora si podemos utilizar la herramienta `snmpwalk` .
+Entonces ahora si podemos utilizar la herramienta `snmpwalk`.
 
 En un dispositivo remoto de nuestra red interna, por ejemplo el PfSense se parametriza así:
 
@@ -83,7 +83,7 @@ Luego de esto crearemos una carpeta donde estarán el archivo compose para snmp_
 sudo mkdir -p /opt/docker/snmp-exporter
 ```
 
-Ahora si ya podemos crear nuestro archivo docker-compose con nano o vim, y pegamos este fragmento en esta ruta /opt/docker/snmp-exporter:
+Ahora si ya podemos crear nuestro archivo docker-compose con cualquier editor de texto, y pegamos este fragmento en esta ruta /opt/docker/snmp-exporter:
 
 ```yaml
 services:
@@ -113,19 +113,19 @@ Primero creamos un directorio y nos movemos a el:
 mkdir monitoring-snmp && cd monitoring-snmp
 ```
 
-Y ahora dentro de ese directorio clonamos el repositorio de github:
+Dentro de ese directorio clonamos el repositorio de github:
 
 ```bash
 git clone [https://github.com/prometheus/snmp_exporter.git](https://github.com/prometheus/snmp_exporter.git)
 ```
 
-una vez clonado el repositorio dentro de la carpeta snmp_exporter tendremos todo el código fuente para el generador, aunque primero necesitaremos instalar algunas dependencias para poder compilar el generador:
+Una vez clonado el repositorio dentro de la carpeta snmp_exporter tendremos todo el código fuente para el generador, aunque primero necesitaremos instalar algunas dependencias para poder compilar el generador:
 
 ```bash
 sudo apt-get install unzip build-essential libsnmp-dev -y
 ```
 
-nos movemos a la carpeta generator ahora:
+Nos movemos a la carpeta generator ahora:
 
 ```bash
 cd generator
@@ -136,7 +136,7 @@ cd generator
 
 Ahora ya podemos  compilar el generador y procesar los MIBs. Para entender la importancia de esto, pensemos en los **MIBs**  como si fueran el sistema DNS de las redes o un diccionario de traducción.
 
-Los dispositivos de red se comunican internamente utilizando **OIDs (Object Identifiers)**, que son largas cadenas numéricas jerárquicas difíciles de memorizar para un humano. Los archivos MIB actúan como un mapa que traduce esas cadenas numéricas a nombres legibles (por ejemplo, traduce `.1.3.6.1.2.1.1.5.0` a `sysName`). Al compilar los MIBs, permitimos que el generador entienda qué métricas estamos solicitando por su nombre y sepa exactamente qué dirección numérica pedirle al dispositivo. Esto nos ayuda a trabajar únicamente con los **nombres de las métricas definidos en los MIBs**, sin necesidad de memorizar o buscar manualmente la compleja cadena numérica de cada OID.
+>Los dispositivos de red se comunican internamente utilizando **OIDs (Object Identifiers)**, que son largas cadenas numéricas jerárquicas difíciles de memorizar para un humano. Los archivos MIB actúan como un mapa que traduce esas cadenas numéricas a nombres legibles (por ejemplo, traduce `.1.3.6.1.2.1.1.5.0` a `sysName`). Al compilar los MIBs, permitimos que el generador entienda qué métricas estamos solicitando por su nombre y sepa exactamente qué dirección numérica pedirle al dispositivo. Esto nos ayuda a trabajar únicamente con los **nombres de las métricas definidos en los MIBs**, sin necesidad de memorizar o buscar manualmente la compleja cadena numérica de cada OID.
 
 Entonces se ejecuta el siguiente comando:
 
@@ -144,23 +144,23 @@ Entonces se ejecuta el siguiente comando:
 make generator mibs
 ```
 
-una vez que tengamos el compilador en funcionamiento, ya podremos generar nuestra configuración SNMP, se creará un binario.
+Entonces cuando tengamos el compilador en funcionamiento, ya podremos generar nuestra configuración SNMP, se creará un binario.
 
 En caso de que tire un error como este por ejemplo:
 
 ![imagen.png6](../assets/imagen5.png)
 
-primer verificamos si tenemos go instalado, en caso que no, lo instalamos:
+Primero verificamos si tenemos go instalado, en caso que no, lo instalamos:
 
 ![imagen.png7](../assets/imagen6.png)
 
-y para eso lo que hacemos es descargar la versión 1.23.5 utilizando wget, es necesario esa versión porque así lo requiere el repositorio:
+Y para eso lo que hacemos es descargar la versión 1.23.5 utilizando wget, es necesaria esa versión para garantizar la compatibilidad con el código del repositorio:
 
 ```bash
 wget [https://go.dev/dl/go1.23.5.linux-amd64.tar.gz](https://go.dev/dl/go1.23.5.linux-amd64.tar.gz)
 ```
 
-lo descomprimimos ahora:
+Entonces lo descomprimimos ahora:
 
 ```bash
 sudo tar -C /usr/local -xzf go1.23.5.linux-amd64.tar.gz
@@ -172,36 +172,36 @@ Agregamos /usr/local/go/bin a la variable de entorno PATH:
 export PATH=$PATH:/usr/local/go/bin
 ```
 
-y si escribimos go version nos muestrará la version instalada:
+Y si escribimos go version nos mostrará la version instalada:
 
 ```bash
 ubuntu@JMONSR02:~/monitoring-snmp/snmp_exporter/generator$ go version
 go version go1.24.0 linux/amd64
 ```
 
-ahora ya podremos lanzar de nuevo el comando:
+Una vez instalado go, ya podremos lanzar de nuevo el comando:
 
 ```bash
 make generator mibs
 ```
 
-que nos generará el binario compilado y listo para usar
+El cuál nos generará el binario compilado y listo para usar:
 
 ![imagen.png8](../assets/imagen7.png)
 
-ahora ya podemos crear nuestra configuración SNMP, editando el archivo generator.yml, por las dudas hacemos una copia de ese archivo:
+Ahora ya podemos crear nuestra configuración SNMP, editando el archivo generator.yml, por las dudas hacemos una copia de ese archivo:
 
 ```bash
 cp generator.yml generator.yml.bkp
 ```
 
-ahora lo editamos con nano o vim:
+Lo editamos con cualquier editor de texto:
 
 ![imagen.png9](../assets/imagen8.png)
 
 En nuestro caso podemos dejar la autenticación por defecto que ya trae, para este caso configuramos la versión 2 para todos los dispositivos de la red.
 
-Ahora debemos establecer el recorrido y poner las métricas específicas que se quieran obtener, por ejemplo:
+Entonces debemos establecer el recorrido y poner las métricas específicas que se quieran obtener, por ejemplo:
 
 ![imagen.png10](../assets/imagen9.png)
 
@@ -237,35 +237,33 @@ donde cada una tiene un significado en especial:
 - **memBuffer**: Datos temporales (I/O).
 - **memCached**: Datos en caché.
 
-entonces ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
+Ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
 
 ```bash
 ./generator -m mibs generate
 ```
 
-esto nos generará un archivo llamado snmp.yml:
+Esto nos generará un archivo llamado snmp.yml:
 
 ![imagen.png11](../assets/imagen10.png)
 
-si lo abrimos esto es un extracto de su contenido, bastante similar al del generador.yml:
+Sí lo abrimos esto es un extracto de su contenido, bastante similar al del generador.yml:
 
 ![imagen.png12](../assets/imagen11.png)
 
-bien entonces el siguiente paso es levantar el contenedor y la configuración
-
-para eso volvemos al directorio 
+Bien entonces el siguiente paso es levantar el contenedor y la configuración, para eso volvemos al directorio: 
 
 ```bash
 cd /opt/docker/snmp-exporter
 ```
 
-y antes de iniciar el contenedor, crearemos una carpeta llamada config:
+Y antes de iniciar el contenedor, crearemos una carpeta llamada config:
 
 ```bash
 mkdir config 
 ```
 
-y ahora lo que hacemos es copiar el archivo snmp.yml que se generó automaticamente a la ubicación actual, el directorio config:
+Luego, lo que hacemos es copiar el archivo snmp.yml que se generó automaticamente a la ubicación actual, el directorio config:
 
 ```bash
 sudo cp /home/ubuntu/monitoring-snmp/snmp_exporter/generator/snmp.yml  .
@@ -277,7 +275,7 @@ Ahora ya podemos crear la carpeta prometheus y su compose dentro de /opt/docker/
 mkdir prometheus && cd prometheus
 ```
 
-creamos el archivo docker-compose.yml utilizando nano o vim y pegamos lo siguiente:
+Creamos el archivo docker-compose.yml utilizando cualquier editor de texto, y pegamos lo siguiente:
 
 ```yaml
 services:
@@ -305,25 +303,25 @@ networks:
 
 ```
 
-luego creamos una carpeta llamada prometheus-data:
+Luego creamos una carpeta llamada prometheus-data:
 
 ```bash
 mkdir prometheus-data
 ```
 
-le otorgamos permisos de lectura, escritura y ejecución:
+Le otorgamos permisos de lectura, escritura y ejecución:
 
 ```bash
 chmod 777 prometheus-data
 ```
 
-y ahora dentro de /opt/docker/prometheus, creamos otra carpeta prometheus que contendrá el prometheus.yml:
+Y ahora dentro de /opt/docker/prometheus, creamos otra carpeta prometheus que contendrá el prometheus.yml:
 
 ```bash
 mkdir prometheus && cd prometheus
 ```
 
-luego utilizando nano o vim creamos el archivo prometheus.yml y pegamos el siguiente contenido:
+Posteriormente utilizando creamos el archivo prometheus.yml y pegamos el siguiente contenido:
 
 ```yaml
 global:
@@ -348,7 +346,7 @@ scrape_configs:
         replacement: snmp-exporter:9116
 ```
 
-una vez guardado ahora ya podemos levantar el contenedor utilizando docker-compose:
+Una vez guardado ahora ya podemos levantar el contenedor utilizando docker-compose:
 
 ```bash
 docker-compose up -d 
@@ -356,7 +354,7 @@ docker-compose up -d
 
 ![imagen.png13](../assets/imagen12.png)
 
-ahora se encuentra en ejecución, y podemos ingresar a la interfaz gráfica utilizando la ip que nos proporciona tailscale e indicamos el puerto 9090 que está escuchando nuestro contenedor de prometheus: `http://100.100.152.8:9090/`
+Ahora se encuentra en ejecución, y podemos ingresar a la interfaz gráfica utilizando la ip que nos proporciona tailscale e indicamos el puerto 9090 que está escuchando nuestro contenedor de prometheus `http://100.100.152.8:9090/`: 
 
 ![imagen.png14](../assets/imagen13.png)
 
@@ -364,7 +362,7 @@ Posteriormente ahora también ya podemos levantar el contenedor snmp_exporter qu
 
 ![imagen.png15](../assets/imagen14.png)
 
-y ahora también podemos ingresar a la página con la ip de tailscale y el puerto 9116 [`http://100.100.152.8:9116/`](http://100.100.152.8:9116/)
+También podemos ingresar a la página con la ip de tailscale y el puerto 9116 [`http://100.100.152.8:9116/`](http://100.100.152.8:9116/)
 
 ![imagen.png16](../assets/imagen15.png)
 
@@ -372,15 +370,15 @@ Ahora en este paso incluso ya podemos probar si estamos obteniendo las métricas
 
 ![imagen.png17](../assets/imagen16.png)
 
-entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro firewall PfSense.
+Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro firewall PfSense:
 
-Una vez que eso está funcionando ya podemos volver a la carpeta /opt/docker/ y dentro de ella crearemos una llamada grafana:
+Una vez que eso está funcionando ya podemos volver a la carpeta /opt/docker/ y dentro de ella crearemos una llamada Grafana:
 
 ```bash
 mkdir grafana && cd grafana 
 ```
 
-dentro de ella creamos nuestro archivo docker-compose.yml utilizando nano o vim, y pegamos el siguiente contenido:
+Dentro de ella creamos nuestro archivo docker-compose.yml utilizando nano o vim, y pegamos el siguiente contenido:
 
 ```yaml
 services:
@@ -401,27 +399,27 @@ networks:
     external: true
 ```
 
-ahora creamos un directorio llamado grafana-data:
+Ahora creamos un directorio llamado grafana-data:
 
 ```bash
 mkdir grafana-data
 ```
 
-y le damos permisos de lectura, escritura y ejecución:
+Y le damos permisos de lectura, escritura y ejecución:
 
 ```bash
 chmod 777 grafana-data
 ```
 
-listo, ahora si podremos levantar nuestro contenedor con la herramienta `docker-compose up`:
+Listo, ahora si podremos levantar nuestro contenedor con la herramienta `docker-compose up`:
 
 ![imagen.png18](../assets/imagen17.png)
 
-Ahora ingresando con la ip de tailscale y el puerto 3000 que está escuchando el contenedor de grafana, podemores acceder al dashboard desde un navegador:
+Ingresando con la ip de tailscale y el puerto 3000 que está escuchando el contenedor de grafana, podremos acceder al dashboard desde un navegador:
 
 ![imagen.png19](../assets/imagen18.png)
 
-Ahora es el momento de crear los paneles con graficas, gauge y stats, de nuesotro firewall PfSense en este caso, para eso primero debemos linkear prometheus como fuente de datos, osea conectar prometheus como fuente de datos en grafana
+Ahora es el momento de crear los paneles con graficas, gauge y stats, de nuesotro firewall PfSense en este caso, para eso primero debemos linkear Prometheus como fuente de datos, osea conectar Prometheus como fuente de datos en Grafana.
 
 Hacemos click en data sources:
 

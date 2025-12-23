@@ -33,6 +33,8 @@ El servidor bastion (también conocido como "jump server" o "jump host") es un c
 
 ![Flujo de acceso SSH al bastion](../assets/bastionDemo.gif)
 
+---
+
 ## 2. Flujo de Conexión
 
 Para entrar a un router por ejemplo, el administrador debe seguir este proceso:
@@ -44,6 +46,7 @@ Para entrar a un router por ejemplo, el administrador debe seguir este proceso:
 
 ![Flujo de acceso SSH al bastion](../assets/bastionDemo2.gif)
 
+---
 
 ## 3. Configuración del Servidor
 
@@ -87,4 +90,4 @@ Host 172.16.1.4
   HostKeyAlgorithms +ssh-rsa  
 ```
 
-> En el caso para el router VyOS no sería necesario está config, no aplica.
+> En el caso para el router VyOS y PfSense no sería necesario está config, no aplica.
