@@ -2,11 +2,11 @@ site_name: Juane’s Home Lab
 site_author: Juan Siécola
 theme:
   icon:
-    logo: 'material/remote-desktop'
+    logo: 'material/server-network'
   favicon: assets/icon.png
   language: es
   font:
-    text: Open Sans 
+    text: Open Sans
     code: Roboto Mono
   features:
     - navigation.tabs

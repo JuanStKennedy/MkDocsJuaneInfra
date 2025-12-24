@@ -1,4 +1,4 @@
-# Bienvenido a Juane’s Home Lab 🖧
+# ¡Bienvenido a Juane’s Home Lab! :wave:
 
 ¡Hola! Este sitio es mi **portfolio técnico y laboratorio de infraestructura**. Aquí documento configuraciones, diagramas y prácticas reales de los conocimientos que voy adquiriendo a lo largo de mi formación para poder aplicarlos y probarlos en distintos escenarios.
 
@@ -25,7 +25,7 @@
 | [Direcciones IP](topologia/direcciones-ip.md) | Direccionamiento IP por interfaz |
 | [Dispositivos](dispositivos/index.md) | Configuración de routers, switches y servidores |
 | [Servicios](servicios/index.md) | Servicios desplegados con Docker en servers |
-| [AWS](AWS/aws.md) | Uso de la VM de AWS como proxy reverso |
+| [AWS](AWS/aws.md) | Uso de la VM de AWS como proxy reverso para el ingreso a los servicios |
 | [OCI](OCI/oci.md) | Uso de la VM de Oracle Cloud para correr Grafana y Prometheus con Docker |
 
 ---
