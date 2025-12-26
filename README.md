@@ -16,7 +16,7 @@ He implementado un entorno de dominio centralizado para gestionar recursos y seg
 
 ### 2. Conectividad y Redes Híbridas 
 El laboratorio no es una isla; está diseñado para simular un entorno empresarial real:
-* **SD-WAN / Mesh VPN:** Uso de **Tailscale** para crear un túnel persistente entre mi red local y máquinas virtuales en la nube (Oracle Cloud / AWS).
+* **LAN / VPN:** Uso de **Tailscale** para crear un túnel persistente entre mi red local y máquinas virtuales en la nube (Oracle Cloud / AWS).
 * **Simulación de Topologías:** Diseño y testeo de enrutamiento estático y dinámico en **GNS3** con imágenes Cisco IOS, VyOS y PfSense.
 * **Core Técnico:** Implementación de direccionamiento IPv4, VLANs, NAT, VPN.
 
