@@ -74,3 +74,13 @@ extra_javascript:
 
 extra_css:
   - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin 
+      link: https://www.linkedin.com/in/juan-siecola
+    
+    - icon: fontawesome/solid/envelope
+      link: mailto:juanesiecola@gmail.com
+
+copyright: Copyright &copy; 2025 Juan Siécola

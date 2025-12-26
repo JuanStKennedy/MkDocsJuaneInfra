@@ -4,7 +4,7 @@ Bienvenido a la documentación de mi laboratorio personal. Este espacio es el re
 
 ---
 
-## 🏗️ Arquitectura del Laboratorio
+##  Arquitectura del Laboratorio
 
 Mi laboratorio combina dispositivos locales en **GNS3** con máquinas virtuales en **Nubes Públicas** (Oracle/AWS), interconectados mediante una VPN (Tailscale).
 
@@ -12,7 +12,7 @@ Mi laboratorio combina dispositivos locales en **GNS3** con máquinas virtuales 
 He implementado un entorno de dominio centralizado para gestionar recursos y seguridad:
 * **Controlador de Dominio:** Samba sobre **Debian**, configurado como Domain Controller (AD DC).
 * **Integración Linux:** Autenticación centralizada en servidores Linux mediante SSSD y resolución de nombres integrada en el dominio.
-* **Instalación de RSAT en Windows:** Para administrar de manera gráfica los usuarios, ous, grupos y políticas.
+* **Instalación de RSAT en Windows:** Para administrar de manaera gráfica los usuarios, ous, grupos y políticas.
 
 ### 2. Conectividad y Redes Híbridas 
 El laboratorio no es una isla; está diseñado para simular un entorno empresarial real:
@@ -25,13 +25,13 @@ El laboratorio no es una isla; está diseñado para simular un entorno empresari
 ### 3. Stack de Monitoreo y Observabilidad 
 Para garantizar la salud de los servicios, implementé servicios de métricas basado en contenedores:
 * **Recolección:** **Prometheus** como motor de base de datos de series temporales.
-* **Exporters:** Uso de `snmp_exporter` para obtener datos en tiempo real de equipos de red (Cisco/VyOS).
+* **Exporters:** Uso de `snmp_exporter` para obtener datos en tiempo real de equipos de red (Cisco/VyOS/PfSense).
 * **Visualización:** Dashboards avanzados en **Grafana** para monitoreo de tráfico de interfaces y métricas de CPU y memoria.
 * **Estado:** **Uptime Kuma** para alertas de disponibilidad, tiempos de respuesta y seguimiento de los certificados SSL.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 | Categoría | Herramientas y Protocolos |
 | :--- | :--- |

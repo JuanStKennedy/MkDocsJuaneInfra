@@ -6,7 +6,7 @@ Este servicio se ejecuta en una instancia de **Oracle Cloud Infrastructure (OCI)
     
 La conexión con los dispositivos locales se realiza de forma segura y transparente a través de un túnel **Tailscale**.
 
-## 🏗️ Arquitectura de Red
+## :fontawesome-solid-diagram-project: Arquitectura de Red
 
 * **No hay puertos expuestos a Internet:** Los puertos 3000 (Grafana) y 9090 (Prometheus) no están abiertos en el firewall de Oracle.
 * **Acceso VPN:** Para ver los dashboards o consultar datos, es obligatorio estar conectado a la red Tailscale.

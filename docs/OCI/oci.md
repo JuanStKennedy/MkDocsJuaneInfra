@@ -56,4 +56,4 @@ Dado que los puertos no están abiertos en la IP Pública, el acceso se realiza 
 | **Prometheus** | `http://100.124.242.122:9090` |
 | **SNMP Exporter** | `http://100.124.242.122:9116` |
 
-> *En el apartado de servicios -> grafana está todo más detallada su configuración, o haciendo click en el enlace* [Grafana](/mysite/servicios/grafana/)
+> *En el apartado de servicios -> grafana está todo más detallada su configuración, o haciendo click en el enlace* [Grafana](../servicios/grafana.md)
