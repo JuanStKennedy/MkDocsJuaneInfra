@@ -20,3 +20,8 @@
 .md-typeset div.highlight {
     margin-inline: 0; /* Elimina márgenes extra si los hay */
 }
+
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: medium;
+}
