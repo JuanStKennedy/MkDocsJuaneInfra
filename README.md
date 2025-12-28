@@ -1,4 +1,4 @@
-# 🛠️ Networking Home Lab
+#  Networking Home Lab
 
 Bienvenido a la documentación de mi laboratorio personal. Este espacio es el registro técnico de mi aprendizaje en Linux, Docker, Networking y Observabilidad. Mi enfoque está en la **conectividad híbrida**.
 
@@ -15,10 +15,10 @@ He implementado un entorno de dominio centralizado para gestionar recursos y seg
 * **Instalación de RSAT en Windows:** Para administrar de manaera gráfica los usuarios, ous, grupos y políticas.
 
 ### 2. Conectividad y Redes Híbridas 
-El laboratorio no es una isla; está diseñado para simular un entorno empresarial real:
-* **LAN / VPN:** Uso de **Tailscale** para crear un túnel persistente entre mi red local y máquinas virtuales en la nube (Oracle Cloud / AWS).
+El laboratorio está compuesto por dispositivos en una topología en **GNS3** local, y con instancias de OCI y AWS:
+* **LAN->VPN:** Uso de **Tailscale** para crear un túnel persistente entre mi red local y máquinas virtuales en la nube (Oracle Cloud / AWS).
 * **Simulación de Topologías:** Diseño y testeo de enrutamiento estático y dinámico en **GNS3** con imágenes Cisco IOS, VyOS y PfSense.
-* **Core Técnico:** Implementación de direccionamiento IPv4, VLANs, NAT, VPN.
+* **Direccionamiento y Protocolos:** Implementación de direccionamiento IPv4, VLANs, NAT, VPN.
 
 
 
