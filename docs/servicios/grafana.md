@@ -91,17 +91,16 @@ services:
     container_name: snmp-exporter
     image: quay.io/prometheus/snmp-exporter:v0.27.0
     ports:
-      - "9116:9116"
+      - 9116:9116
     volumes:
       - ./config:/etc/snmp-exporter
     command: --config.file=/etc/snmp-exporter/snmp.yml
     restart: unless-stopped
     networks:
-      prometheus_frontend:
-        ipv4_address: 172.19.0.12
+      - monitoring_network
 
 networks:
-  prometheus_frontend:
+  monitoring_network:
     external: true
 ```
 
@@ -283,23 +282,18 @@ services:
     image: prom/prometheus:v2.53.0
     container_name: prometheus
     ports:
-      - "9090:9090"
+      - 9090:9090
     volumes:
       - ./prometheus:/etc/prometheus
       - ./prometheus-data:/prometheus
     command: "--config.file=/etc/prometheus/prometheus.yml"
     restart: unless-stopped
     networks:
-      frontend:
-        ipv4_address: 172.19.0.11
+      - monitoring_network
 
 networks:
-  frontend:
+  monitoring_network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/16
-          gateway: 172.19.0.1
 
 ```
 
@@ -386,16 +380,15 @@ services:
     image: grafana/grafana-oss:10.2.8
     container_name: grafana
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./grafana-data:/var/lib/grafana
     restart: unless-stopped
     networks:
-      prometheus_frontend:
-        ipv4_address: 172.19.0.13
+      - monitoring_network
 
 networks:
-  prometheus_frontend:
+  monitoring_network:
     external: true
 ```
 
@@ -433,9 +426,9 @@ Elegimos Prometheus:
 
 ![imagen.png22](../assets/imagen21.png)
 
-y en la ventana que se nos abre, en el campo connection debemos poner la ip del contenedor de prometheus que definimos en su archivo docker-compose.yml, en este caso su ip era 172.19.0.11 y también indicamos el puerto, en este caso 9090:
+y en la ventana que se nos abre, en el campo connection debemos poner el nombre del contenedor de prometheus que definimos en su archivo docker-compose.yml, y también indicamos el puerto, en este caso 9090:
 
-![imagen.png23](../assets/imagen22.png)
+![imagen.png23](../assets/grafana-prometheus.png)
 
 y si hacemos click en el botón save & test:
 
