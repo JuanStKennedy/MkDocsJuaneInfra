@@ -3,9 +3,9 @@
 Este switch actúa como el **núcleo (core)** de la red. Su única función es agregar los enlaces troncales (trunks) y conectar el switch de acceso (`JPSWA01`) con el router principal (`JPROO2`).
 
 ```
-Current configuration : 4139 bytes
+Current configuration : 4185 bytes
 !
-! Last configuration change at 19:41:33 UTC Fri Dec 19 2025
+! Last configuration change at 00:45:49 UTC Fri Jan 2 2026
 !
 version 15.2
 service timestamps debug datetime msec
@@ -105,12 +105,14 @@ interface GigabitEthernet2/3
 !
 interface GigabitEthernet3/0
  switchport trunk encapsulation dot1q
+ switchport trunk native vlan 500
  switchport mode trunk
  media-type rj45
  negotiation auto
 !
 interface GigabitEthernet3/1
  switchport trunk encapsulation dot1q
+ switchport trunk native vlan 500
  switchport mode trunk
  media-type rj45
  negotiation auto
@@ -124,10 +126,10 @@ interface GigabitEthernet3/3
  negotiation auto
 !
 interface Vlan1
- description "Vlan administrativa"
- ip address 172.16.1.3 255.255.255.0
+ no ip address
 !
 interface Vlan99
+ description "Vlan administrativa"
  ip address 172.16.99.10 255.255.255.0
 !
 ip forward-protocol nd
@@ -135,7 +137,7 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 !
-ip route 0.0.0.0 0.0.0.0 172.16.1.1
+ip route 0.0.0.0 0.0.0.0 172.16.99.1
 !
 ip access-list standard ADMIN_ONLY
  permit 172.16.10.10

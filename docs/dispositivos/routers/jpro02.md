@@ -3,9 +3,9 @@
 Este es el router principal que gestiona el enrutamiento Inter-VLAN (Router-on-a-Stick) y se conecta al core de la red.
 
 ```
-Current configuration : 4498 bytes
+Current configuration : 4616 bytes
 !
-! Last configuration change at 18:54:12 UTC Fri Dec 19 2025 by JPRO02-admin
+! Last configuration change at 00:10:33 UTC Fri Jan 2 2026
 !
 version 15.9
 service timestamps debug datetime msec
@@ -100,32 +100,36 @@ interface GigabitEthernet0/3
  speed auto
  media-type rj45
 !
-interface GigabitEthernet0/3.1
- encapsulation dot1Q 1 native
- ip address 172.16.1.1 255.255.255.0
-!
 interface GigabitEthernet0/3.5
+ description Gateway de Vlan 5
  encapsulation dot1Q 5
  ip address 172.16.5.1 255.255.255.0
 !
 interface GigabitEthernet0/3.10
+ description Gateway de Vlan 10
  encapsulation dot1Q 10
  ip address 172.16.10.1 255.255.255.0
 !
 interface GigabitEthernet0/3.99
+ description Gateway de Vlan 99 Administrativa
  encapsulation dot1Q 99
- ip address 172.16.99.30 255.255.255.0
+ ip address 172.16.99.1 255.255.255.0
 !
 interface GigabitEthernet0/3.200
+ description Gateway de Vlan 200
  encapsulation dot1Q 200
  ip address 172.16.200.1 255.255.255.0
+!
+interface GigabitEthernet0/3.500
+ description VLAN_NATIVA
+ encapsulation dot1Q 500 native
 !
 router ospf 1
  network 10.10.1.0 0.0.0.3 area 10
  network 10.255.255.2 0.0.0.0 area 10
- network 172.16.1.0 0.0.0.255 area 10
  network 172.16.5.0 0.0.0.255 area 10
  network 172.16.10.0 0.0.0.255 area 10
+ network 172.16.99.0 0.0.0.255 area 10
  network 172.16.200.0 0.0.0.255 area 10
 !
 ip forward-protocol nd

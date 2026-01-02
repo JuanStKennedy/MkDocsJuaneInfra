@@ -14,7 +14,7 @@ Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en 
 
 | VLAN ID | Nombre (Propósito) | Red (Subred) | Gateway (en JPROO2) |
 | :---: | :--- | :--- | :--- |
-| 1 | Default | 172.16.1.0/24 | 172.16.1.1 |
+| 99 | Administración | 172.16.99.0/24 | 172.16.99.1 |
 | 5 | Datacenter | 172.16.5.0/24 | 172.16.5.1 |
 | 10 | Sysadmin | 172.16.10.0/24 | 172.16.10.1 |
 | 200 | Dev | 172.16.200.0/24 | 172.16.200.1 |
@@ -46,7 +46,9 @@ VLAN Name                             Status    Ports
 1    default                          active    Gi0/2, Gi0/3, Gi1/1, Gi1/2, Gi1/3, Gi2/2, Gi2/3, Gi3/0, Gi3/2, Gi3/3
 5    datacenter                       active    Gi0/0, Gi0/1
 10   sysadmin                         active    Gi2/0, Gi2/1
+99   management                       active
 200  dev                              active    Gi1/0
+500  NATIVE_VLAN                      active
 1002 fddi-default                     act/unsup
 1003 token-ring-default               act/unsup
 1004 fddinet-default                  act/unsup
@@ -68,19 +70,22 @@ VLAN Name                             Status    Ports
     * Conexión: Hacia `JPROO2` (Router).
 
 **Configuración de JPSWC01**
-```bash title="Configuración de JPSWC01"
-! --- Troncal hacia el Switch de Acceso ---
-interface GigabitEthernet3/1
- switchport trunk encapsulation dot1q
- switchport mode trunk
- media-type rj45
- negotiation auto
+```bash title="Salida de JPSWC01#show interfaces trunk"
+Port        Mode             Encapsulation  Status        Native vlan
+Gi3/0       on               802.1q         trunking      500
+Gi3/1       on               802.1q         trunking      500
 
-! --- Troncal hacia el Router ---
- interface GigabitEthernet3/0
- switchport trunk encapsulation dot1q
- switchport mode trunk
- media-type rj45
- negotiation auto
+Port        Vlans allowed on trunk
+Gi3/0       1-4094
+Gi3/1       1-4094
+
+Port        Vlans allowed and active in management domain
+Gi3/0       1,5,10,99,200,500
+Gi3/1       1,5,10,99,200,500
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Gi3/0       1,5,10,99,200,500
+Gi3/1       1,5,10,99,200,500
 ```
-
+!!!note
+    Cabe destacar que se cambió la vlan nativa que suele venir por defecto en la vlan 1, a una nueva llamada NATIVE_VLAN con ID 500.

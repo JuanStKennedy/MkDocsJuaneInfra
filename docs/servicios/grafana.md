@@ -47,7 +47,7 @@ Hacemos click en el enlace:
 
 Luego por la consola debemos aceptar las rutas que está compartiendo/advirtiendo el firewall PfSense:
 
-![imagen.png3](../assets/imagen2.png)
+![imagen.png3](../assets/subnet-tailscale-advertise-new.png)
 
 Aceptamos las rutas en la instancia de oracle con el comando:
 

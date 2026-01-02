@@ -10,10 +10,10 @@ Este router maneja el enrutamiento Inter-VLAN (Router-on-a-Stick).
 
 | Interfaz | Descripción | VLAN | Dirección IP | Máscara (CIDR) |
 | :--- | :--- | :---: | :--- | :---: |
-| G0/0.1 | Gateway VLAN 1 (Default) | 1 | 172.16.1.2 | /24 |
-| G0/0.5 | Gateway VLAN 5 (Datacenter) | 5 | 172.16.5.1 | /24 |
-| G0/0.10 | Gateway VLAN 10 (Sysadmin) | 10 | 172.16.10.1 | /24 |
-| G0/0.200 | Gateway VLAN 200 (Dev) | 200 | 172.16.200.1 | /24 |
+| G0/3.5 | Gateway VLAN 5 (Datacenter) | 5 | 172.16.5.1 | /24 |
+| G0/3.10 | Gateway VLAN 10 (Sysadmin) | 10 | 172.16.10.1 | /24 |
+| G0/3.99 | Gateway VLAN 99 (Admin Switches) | 99 | 172.16.99.1 | /24 |
+| G0/3.200 | Gateway VLAN 200 (Dev) | 200 | 172.16.200.1 | /24 |
 | G0/0 | Enlace a JPROO1 (VyOS) | N/A | 10.10.1.2 | /30 |
 | LoopBack | Administración | N/A | 10.255.255.2 | /32 |
 
@@ -47,8 +47,8 @@ Para poder administrar los switches por SSH necesitamos una IP, en los Routers p
 
 | Dispositivo | Propósito | VLAN | Dirección IP | Gateway |
 | :--- | :--- | :---: | :--- | :--- |
-| JPSWC01 | IP de Gestión | 1 | 172.16.1.3 | 172.16.1.1 (Router Cisco) |
-| JPSWA01 | IP de Gestión | 1 | 172.16.1.4 | 172.16.1.1 (Router Cisco) |
+| JPSWC01 | IP de Gestión | 99 | 172.16.99.10 | 172.16.99.1 (Router Cisco) |
+| JPSWA01 | IP de Gestión | 99 | 172.16.99.20 | 172.16.99.1 (Router Cisco) |
 
 ---
 
@@ -62,4 +62,5 @@ Estos son los dispositivos finales en cada red.
 | JDATSR02| Datacenter (5) | ens4 | 172.16.5.101 | 172.16.5.1 |
 | JDEVSR01| Dev (200) | ens4 | 172.16.200.50 | 172.16.200.1 |
 | JJUMSR01 | Sysadmin (10) | ens4 | 172.16.10.10 | 172.16.10.1 |
+| JDCSR01  | Sysadmin (10) | ens4 | 172.16.10.11 | 172.16.10.1 |
 | JPPC01 | Management (N/A) | eth0 | 192.168.1.50 | 192.168.1.1 |

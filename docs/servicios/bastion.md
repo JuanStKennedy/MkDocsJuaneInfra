@@ -76,18 +76,19 @@ Host 10.255.255.2
   HostKeyAlgorithms +ssh-rsa
 
 # --- Configuración para JPSWC01 ---
-Host 172.16.1.3
-  HostName 172.16.1.3
+Host 172.16.99.10
+  HostName 172.16.99.10
   User JPSWC01-admin
   KexAlgorithms +diffie-hellman-group14-sha1
   HostKeyAlgorithms +ssh-rsa
 
 # --- Configuración para JPSWA01 ---
-Host 172.16.1.4
-  HostName 172.16.1.4
+Host 172.16.99.20
+  HostName 172.16.99.20
   User JPSWA01-admin
   KexAlgorithms +diffie-hellman-group14-sha1
-  HostKeyAlgorithms +ssh-rsa  
+  HostKeyAlgorithms +ssh-rsa
 ```
 
-> En el caso para el router VyOS y PfSense no sería necesario está config, no aplica.
+!!!note
+    En el caso para el router VyOS y PfSense no sería necesario aplicar esta config en sus respectivos hostnames.

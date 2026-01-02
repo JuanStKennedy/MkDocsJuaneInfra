@@ -31,10 +31,9 @@ GigabitEthernet0/0         10.10.1.2       YES NVRAM  up                    up
 GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
 GigabitEthernet0/2         unassigned      YES NVRAM  administratively down down
 GigabitEthernet0/3         unassigned      YES NVRAM  up                    up
-GigabitEthernet0/3.1       172.16.1.1      YES NVRAM  up                    up
 GigabitEthernet0/3.5       172.16.5.1      YES NVRAM  up                    up
 GigabitEthernet0/3.10      172.16.10.1     YES NVRAM  up                    up
-GigabitEthernet0/3.99      172.16.99.30    YES NVRAM  up                    up
+GigabitEthernet0/3.99      172.16.99.1     YES NVRAM  up                    up
 GigabitEthernet0/3.200     172.16.200.1    YES NVRAM  up                    up
 Loopback0                  10.255.255.2    YES NVRAM  up                    up
 ```
@@ -65,9 +64,9 @@ Para intercambiar rutas automáticamente entre los routers `JPROO2` (Cisco) y `J
 router ospf 1
  network 10.10.1.0 0.0.0.3 area 10
  network 10.255.255.2 0.0.0.0 area 10
- network 172.16.1.0 0.0.0.255 area 10
  network 172.16.5.0 0.0.0.255 area 10
  network 172.16.10.0 0.0.0.255 area 10
+ network 172.16.99.0 0.0.0.255 area 10
  network 172.16.200.0 0.0.0.255 area 10
 
  ! Ruta estática (hacia JPROO1)
@@ -133,7 +132,7 @@ Cuando un paquete vuelve de Internet, pfSense lo recibe. Pero, ¿cómo sabe pfSe
 Creamos rutas para cada una de las redes internas (VLANs) que le dicen a pfSense: "Para alcanzar cualquier host en estas redes, envía el tráfico de vuelta a `JPROO1` (VyOS)" usando el gateway `HACIA_RED_INTERNA` que definimos en el paso anterior.
 
 **Rutas Estáticas en JPFW01:**
-![Static Routes Pfsense](../assets/staticRoutesPfsense.png)
+![Static Routes Pfsense](../assets/rutas-estaticas-pfsense.png)
 
 
 

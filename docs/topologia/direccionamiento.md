@@ -2,7 +2,7 @@
 
 | Propósito / Red | VLAN ID | Red (Subred) | Máscara (CIDR) | Gateway |
 | :--- | :---: | :--- | :---: | :--- |
-| Default Switches | 1 | 172.16.1.0 | /24 | 172.16.1.1 |
+| Administrative Switches | 99 | 172.16.99.0 | /24 | 172.16.99.1 |
 | Datacenter | 5 | 172.16.5.0 | /24 | 172.16.5.1 |
 | Dev | 200 | 172.16.200.0 | /24 | 172.16.200.1 |
 | Sysadmin | 10 | 172.16.10.0 | /24 | 172.16.10.1 |

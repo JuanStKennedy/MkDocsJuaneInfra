@@ -1,7 +1,7 @@
 # Monitoreo con Grafana y Prometheus
 
 ## 1. Resumen de Arquitectura
-El sistema de monitoreo opera en un modelo híbrido Cloud-OnPremise. El servidor principal (VM) se aloja en **Oracle Cloud Infraestructure (OCI)**, mientras que los dispositivos objetivos (Routers/Firewalls) se encuentran en una red local **(GNS3)**.
+El sistema de monitoreo opera en un modelo híbrido, en el cuál se ejecuta una instancia en Oracle Cloud, mientras que los dispositivos objetivos (Routers/Firewalls) se encuentran en una red local **(GNS3)**.
 
 La comunicación entre la nube y el sitio local se asegura mediante **Tailscale (VPN)**.
 
@@ -23,7 +23,7 @@ La comunicación entre la nube y el sitio local se asegura mediante **Tailscale 
 Para alcanzar los objetivos SNMP que tienen IPs privadas, la VM de Oracle utiliza la red **Tailnet**, ya que
 El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas rutas para alcanzar estas redes. De esta manera tengo conectividad con los dispositivos de mi topología en GNS3.
 
-![subnet-router-pfsense](../assets/subnet-advertise.png)
+![subnet-router-pfsense](../assets/tailscale-routing-pfsense.png)
 
 ### 2.2 Flujo de Datos SNMP
 1. **Origen:** Prometheus inicia el scrape en la VM de Oracle.
