@@ -1,4 +1,4 @@
-# 📂 Inventario de Dispositivos
+# :octicons-server-24: Inventario de Dispositivos
 
 Aquí se encuentra la documentación detallada de la configuración para cada dispositivo de la red.
 
