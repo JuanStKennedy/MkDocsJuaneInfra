@@ -15,6 +15,7 @@ theme:
     - navigation.path
     - content.code.select
     - content.code.copy
+    - content.tabs.link
   name: material
   palette: 
     # Palette toggle for automatic mode
@@ -52,10 +53,11 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 plugins:
   - search
