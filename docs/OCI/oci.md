@@ -31,7 +31,7 @@ Para habilitar el protocolo SNMP es los dispositivos ubicados en GNS3 se necesit
     exit
     ```
 
-En caso de pfSense se puede hacer desde la webUI
+En caso de pfSense se puede hacer desde la webUI:
 
 ![snmp-pfsense](../assets/snmp-pfsense.png)
 
