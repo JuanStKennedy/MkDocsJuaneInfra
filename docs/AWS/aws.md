@@ -1,5 +1,5 @@
 # ☁️ Cloud Ingress (AWS Reverse Proxy con NPM)
-> **Punto de Entrada Público:** `https://netbox.js-lab-uy.duckdns.org`, `https://kuma.js-lab-uy.duckdns.org`, `https://homer.js-lab-uy.duckdns.org`
+> **Punto de Entrada Público:** `https://netbox.js-lab-uy.duckdns.org`, `https://kuma.js-lab-uy.duckdns.org`, `https://grafana.js-lab-uy.duckdns.org`
 
 Este componente centraliza el punto de entrada público a todos los servicios internos del laboratorio. Utiliza una Máquina Virtual (VM) en AWS y Nginx Proxy Manager (NPM) para una gestión gráfica y eficiente del tráfico, SSL y Reverse Proxy.
 
@@ -48,12 +48,8 @@ El tráfico público ingresa por AWS y viaja de forma segura hacia el laboratori
 El componente clave es Tailscale.
 
 * El **pfSense** en el laboratorio está configurado para "anunciar" (advertise) las subredes internas (ej. `172.16.5.0/24` y `172.16.200.0/24`) a la Tailnet.
-```bash
-  echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf
-  echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.conf
-  sudo sysctl -p /etc/sysctl.conf
-  tailscale set --advertise-routes=172.16.5.0/24,172.16.200.0/24
-```
+
+![tailscaleannounce](../assets/tailscale-routing-pfsense.png)
 
 * La **VM de AWS** está configurada para "aceptar" esas rutas.
 ```bash

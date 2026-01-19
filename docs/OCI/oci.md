@@ -2,8 +2,8 @@
 
 ![router-cisco](../assets/routercisco-img.png)
 
-## 1. Resumen de Arquitectura
-El sistema de monitoreo opera en un modelo híbrido, en el cuál se ejecuta una instancia en Oracle Cloud, mientras que los dispositivos objetivos (Switches/Routers/Firewalls) se encuentran en una red local **(GNS3)**.
+## 1. Resumen de Conectividad
+El sistema de observabilidad opera en un modelo híbrido, en el cuál se ejecuta una instancia en Oracle Cloud, mientras que los dispositivos objetivos (Switches/Routers/Firewalls) se encuentran en una red local **(GNS3)**.
 
 La comunicación entre la nube y el sitio local se asegura mediante **Tailscale (VPN)**.
 
@@ -48,10 +48,19 @@ El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas 
 ![subnet-router-pfsense](../assets/tailscale-routing-pfsense.png)
 
 ### 3.1 Flujo de Datos SNMP
-1. **Origen:** Prometheus inicia el scrape en la VM de Oracle.
-2. **Enrutamiento:** La tabla de rutas del OS dirige el tráfico hacia alguna IP destino de la topología local en la red interna, por ejemplo `192.168.1.0/24` hacia la interfaz `tailscale0`.
-3. **Transporte:** Los paquetes se encriptan y viajan por internet hacia el **Subnet Router** en el sitio local.
-4. **Destino:** El Subnet Router entrega la petición SNMP al PfSense en su red LAN.
+
+1. **Origen:**  
+   Prometheus inicia el scrape SNMP desde la VM en Oracle Cloud hacia un dispositivo de la red interna (por ejemplo `192.168.1.1`).
+
+2. **Enrutamiento:**  
+   La tabla de rutas del sistema operativo identifica que la red destino (`192.168.1.0/24`) está anunciada por Tailscale, por lo que el tráfico se envía a través de la interfaz `tailscale0`.
+
+3. **Transporte:**  
+   Los paquetes SNMP se encapsulan y cifran mediante Tailscale (WireGuard) y viajan por internet hasta el **Subnet Router**, que en este caso es el pfSense en GNS3, encargado de anunciar las rutas de la LAN.
+
+4. **Destino:**  
+   El pfSense recibe el tráfico desde Tailscale y lo enruta hacia el dispositivo de red correspondiente dentro de su red LAN, completando la solicitud SNMP.
+
 
 !!! info 
     Gracias a esta arquitectura, **no es necesario abrir el puerto UDP 161** en el firewall.
@@ -60,22 +69,20 @@ El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas 
 
 ## 4. Reglas de Firewall (Security Lists OCI)
 
-La superficie de ataque se ha reducido al mínimo. **No se permiten conexiones entrantes a los puertos 3000, 9090 o 9116 desde internet.**
+En las reglas de seguridad de la VCN, no es necesario abrir los puertos 3000 (Grafana), 9090 (Prometheus) ni (9116) como reglas de entrada. En cambio, para dejar público el servicio de Grafana en internet, como reglas de entrada se abren los puertos  80 y 443.
 
-Solo se mantienen las reglas por defecto de Oracle para administración básica.
-
-![firewall-rules](../assets/rules-oci.png)
+![firewall-rules](../assets/oracle-firewall-list.png)
 
 ### 4.1 Acceso a los Servicios
 
-Dado que los puertos no están abiertos en la IP Pública, el acceso se realiza utilizando la **IP de Tailscale** del servidor.
+Para acceder al dashboard de grafana se utiliza la URL `https://grafana.js-lab-uy.duckdns.org`, pero para acceder a prometheus y snmp_exporter se necesita la dirección asignada a la VM por tailscale, indicando el puerto del contenedor correspondiente.
 
 **Requisito:** El dispositivo desde donde se accede debe tener el cliente Tailscale conectado y estar dentro de la misma Tailnet.
 
 | Servicio | URL de Acceso |
 | :--- | :--- |
-| **Grafana** | `http://100.124.242.122:3000` |
-| **Prometheus** | `http://100.124.242.122:9090` |
-| **SNMP Exporter** | `http://100.124.242.122:9116` |
+| **Grafana** | `https://grafana.js-lab-uy.duckdns.org` |
+| **Prometheus** | `http://100.103.72.38:9090` |
+| **SNMP Exporter** | `http://100.103.72.38:9116` |
 
 > *En el apartado de servicios -> grafana está todo más detallada su configuración, o haciendo click en el enlace* [Grafana](../servicios/grafana.md)
