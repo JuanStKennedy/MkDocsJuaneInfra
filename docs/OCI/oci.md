@@ -1,5 +1,7 @@
 # Monitoreo con Grafana y Prometheus
 
+![router-cisco](../assets/routercisco-img.png)
+
 ## 1. Resumen de Arquitectura
 El sistema de monitoreo opera en un modelo híbrido, en el cuál se ejecuta una instancia en Oracle Cloud, mientras que los dispositivos objetivos (Switches/Routers/Firewalls) se encuentran en una red local **(GNS3)**.
 

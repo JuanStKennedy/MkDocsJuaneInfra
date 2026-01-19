@@ -13,11 +13,11 @@ La conexión con los dispositivos locales se realiza de forma segura y transpare
 * **Recolección de Datos:** Prometheus (en la nube) alcanza las IPs privadas de la LAN (`192.168.1.x`) enrutando el tráfico a través del nodo Tailscale local (Subnet Router).
 
 
-***Capturas de pantalla de algunos de los paneles, en este caso JPRO01 y JPRO02***
+***Capturas de pantalla de los Switches (JPSWA01, JPSWC01) de la topología***
 
-![grafana1](../assets/grafana1.png)
+![grafana1](../assets/grafana-switchcore.png)
 
-![grafana2](../assets/grafana2.png)
+![grafana2](../assets/grafana-swtichacceso.png)
 
 ## Pasos que realicé para la configuración e implementación
 
@@ -89,7 +89,7 @@ Ahora si ya podemos crear nuestro archivo docker-compose con cualquier editor de
 services:
   snmp-exporter:
     container_name: snmp-exporter
-    image: quay.io/prometheus/snmp-exporter:v0.27.0
+    image: prom/snmp-exporter:v0.30.1
     ports:
       - 9116:9116
     volumes:
@@ -202,39 +202,52 @@ En nuestro caso podemos dejar la autenticación por defecto que ya trae, para es
 
 Entonces debemos establecer el recorrido y poner las métricas específicas que se quieran obtener, por ejemplo:
 
-![imagen.png10](../assets/imagen9.png)
+![imagen.png10](../assets/modules-snmp-exporter.png)
 
 donde cada una tiene un significado en especial:
 
 ### Información del Sistema y Red
 
 - **sysUpTime**: Tiempo encendido (dispositivo).
-- **interfaces**: Lista de puertos/red.
-- **ifXTable**: Detalles extendidos (interfaces).
-- **sysName**: Nombre del equipo.
+- **sysName**: Nombre de host configurado en el dispositivo.
 
-### Tráfico de Red (Contadores de 64 bits)
+### Interfaces y Tráfico (Común para ambos)
+
+- **ifXTable**: Tabla extendida de interfaces.
+
+    > Nota: Al traer esta tabla, obtienes automáticamente `ifHCInOctets` y `ifHCOutOctets` (los contadores de 64 bits necesarios para medir velocidades de 1Gbps o más sin errores).
+    > 
+    > También trae: `ifName` (Nombre de la interfaz) y `ifAlias` (Descripción de la interfaz).
 
 - **ifHCInOctets**: Tráfico entrante (bytes).
 - **ifHCOutOctets**: Tráfico saliente (bytes).
+- **ifName**: Nombre de la interfaz.
+- **ifAlias**: Descripción de la interfaz.
 
-### Errores de Red
+### Módulo VyOS / Linux (nix_device)
 
-- **ifInErrors**: Errores entrada (paquetes).
-- **ifOutErrors**: Errores salida (paquetes).
+- **hrProcessorLoad**: Carga del procesador.
+    - **Detalle:** Muestra el % de uso de cada núcleo de la CPU individualmente.
 
-### Uso de Procesador (CPU)
+- **hrStorageTable**: Tabla de almacenamiento unificada.
+    - **Detalle:** En Linux/VyOS, esto incluye tanto Discos Duros (sistema de archivos) como Memoria RAM (Physical memory). Por eso usamos filtros luego para separarlos.
 
-- **ssCpuUser**: Uso por aplicaciones.
-- **ssCpuSystem**: Uso por núcleo (kernel).
-- **ssCpuIdle**: CPU libre/ociosa.
+### Módulo Cisco (cisco_device)
 
-### Memoria RAM
+- **cpmCPUTotal5minRev**: Uso de CPU (Cisco Moderno).
+    - **Detalle:** Promedio de uso de CPU en los últimos 5 minutos (Estándar recomendado para Cisco).
 
-- **memTotalReal**: Memoria RAM total.
-- **memAvailReal**: Memoria RAM disponible.
-- **memBuffer**: Datos temporales (I/O).
-- **memCached**: Datos en caché.
+- **ciscoMemoryPoolFree**: Memoria Libre (Cisco Moderno).
+    - **Detalle:** Cantidad de bytes libres en el pool de memoria.
+
+- **ciscoMemoryPoolUsed**: Memoria Usada (Cisco Moderno).
+    - **Detalle:** Cantidad de bytes ocupados.
+
+- **avgBusy5**: Uso de CPU (Cisco Legacy).
+    - **Detalle:** Métrica antigua para routers viejos que no soportan la MIB moderna.
+
+- **freeMem**: Memoria Libre (Cisco Legacy).
+    - **Detalle:** La métrica "vieja escuela" para equipos que no soportan MemoryPool.
 
 Ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
 
@@ -246,9 +259,9 @@ Esto nos generará un archivo llamado snmp.yml:
 
 ![imagen.png11](../assets/imagen10.png)
 
-Sí lo abrimos esto es un extracto de su contenido, bastante similar al del generador.yml:
+Sí lo imprimimos por pantalla, esto es un extracto de su contenido, bastante similar al del generador.yml:
 
-![imagen.png12](../assets/imagen11.png)
+![imagen.png12](../assets/snmp-extract.png)
 
 Bien entonces el siguiente paso es levantar el contenedor y la configuración, para eso volvemos al directorio: 
 
@@ -279,7 +292,7 @@ Creamos el archivo docker-compose.yml utilizando cualquier editor de texto, y pe
 ```yaml
 services:
   prometheus:
-    image: prom/prometheus:v2.53.0
+    image: prom/prometheus:v3.9.1
     container_name: prometheus
     ports:
       - 9090:9090
@@ -294,6 +307,7 @@ services:
 networks:
   monitoring_network:
     driver: bridge
+    name: monitoring_network
 
 ```
 
@@ -377,15 +391,21 @@ Dentro de ella creamos nuestro archivo docker-compose.yml utilizando nano o vim,
 ```yaml
 services:
   grafana:
-    image: grafana/grafana-oss:10.2.8
+    image: grafana/grafana:12.4.0-20904407122-ubuntu
     container_name: grafana
-    ports:
-      - 3000:3000
-    volumes:
-      - ./grafana-data:/var/lib/grafana
     restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      GF_RENDERING_SERVER_URL: http://grafana-image-renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
     networks:
       - monitoring_network
+volumes:
+  grafana-storage: {}
 
 networks:
   monitoring_network:
