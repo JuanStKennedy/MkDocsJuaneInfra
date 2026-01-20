@@ -1,4 +1,4 @@
-# ☁️ Cloud Ingress (AWS Reverse Proxy con NPM)
+# AWS Reverse Proxy con NPM
 > **Punto de Entrada Público:** `https://netbox.js-lab-uy.duckdns.org`, `https://kuma.js-lab-uy.duckdns.org`, `https://grafana.js-lab-uy.duckdns.org`
 
 Este componente centraliza el punto de entrada público a todos los servicios internos del laboratorio. Utiliza una Máquina Virtual (VM) en AWS y Nginx Proxy Manager (NPM) para una gestión gráfica y eficiente del tráfico, SSL y Reverse Proxy.
@@ -37,9 +37,12 @@ El tráfico público ingresa por AWS y viaja de forma segura hacia el laboratori
 
 ![netbox npm](../assets/netboxnpm.png)
 
+***Aquí se puede ver la configuración de proxy host para el servicio de Grafana:***
+![grafana npm](../assets/grafananpm.png)
+
 ***Aquí se pueden ver todos los proxy hosts activos actualmente:***
 
-![npmproxyhosts](../assets/npmproxyhosts.png)
+![npmproxy-hosts](../assets/npmproxy-hosts.png)
 
 ---
 

@@ -493,3 +493,162 @@ le damos click en new visualization:
 aquí seleccionamos prometheus como la fuente de datos:
 
 ![imagen.png27](../assets/imagen26.png)
+
+bien, ahora ya podemos comenzar a crear un panel, comenzaremos con el nombre del dispositivo, en este ejemplo lo haremos para el router cisco JPRO02 de la topología:
+
+![JPRO02-name](../assets/JPRO02-name.png)
+
+#### Configuración del Panel (Grafana)
+
+Tipo de Visualización
+
+* **Stat**
+
+ Panel Options -> Title
+
+* **Name**
+
+Query (PromQL)
+
+```promql
+sysName{instance="10.255.255.2"}
+```
+
+Options -> Legend
+
+```
+{{sysName}}
+```
+
+Luego para el tiempo de encendido el panel es el siguiente:
+
+![JPRO02-uptime](../assets/JPRO02-uptime.png)
+
+Tipo de Visualización
+
+* **Stat**
+
+ Panel Options -> Title
+
+* **UpTime**
+
+Query (PromQL)
+
+```promql
+sysUpTime{instance="10.255.255.2"} * 10
+```
+>!!! note
+    aqui se multiplica por 10 porque en SNMP viene en centesimas por segundos,
+    multiplicar por 10 lo convierte en milésimas (Milisegundos).
+
+Standard options -> unit -> milliseconds (ms)
+
+Ahora crearemos un panel que nos muestra el pico de salida (subida), máximo del router que tuvo en el promedio de 2 minutos
+
+![JPRO02-max](../assets/JPRO02-max.png)
+
+Tipo de Visualización
+
+* **Stat**
+
+ Panel Options -> Title
+
+* **Max Outbound Traffic**
+
+Query (PromQL)
+
+```promql
+max_over_time(sum(rate(ifHCOutOctets{instance="10.255.255.2"}[2m]))[$__range:]) * 8
+```
+>!!! note
+    Esta query toma la velocidad de salida de todas las interfaces sumadas, busca el pico más alto registrado en el periodo de tiempo seleccionado y lo multiplica por 8 para mostrarlo en Bits por segundo.
+
+Standard options -> unit -> bytes (SI)
+
+!!! info
+    Para el panel que muestra el máximo de pico de entrada se hace exactamente igual, solo que en la consulta se utiliza la siguiente: 
+    ```max_over_time(sum(rate(ifHCInOctets{instance="10.255.255.2"}[2m]))[$__range:]) * 8```
+
+Ahora crearemos el panel para ver el uso de la CPU del router
+
+![JPRO02-cpu](../assets/JPRO02-cpu.png)
+
+Tipo de Visualización
+
+* **Gauge**
+
+Panel Options → Title
+
+* **CPU Usage**
+
+Query (PromQL)
+
+```promql
+cpmCPUTotal5minRev{instance="10.255.255.2"}
+```
+
+!!! note
+    Esta métrica representa el porcentaje de uso total de CPU, calculado como un promedio inverso de los últimos 5 minutos para el dispositivo con IP 10.255.255.2.
+    El valor devuelto ya se encuentra normalizado en un rango de 0 a 100, por lo que es ideal para visualizarse directamente en un Gauge.
+
+Standard options -> unit -> Percent (0-100)
+
+!!! info
+    Al utilizar la unidad Percent (0-100), Grafana ajusta automáticamente la visualización del gauge para representar correctamente el consumo de CPU, permitiendo además definir umbrales (thresholds) visuales para estados normales, de advertencia o críticos.
+
+Thresholds
+
+- 🟢 **Verde**: 70 %
+- 🟡 **Amarillo**: 75  %
+- 🔴 **Rojo**: 90 %
+
+Esta configuración permite identificar rápidamente estados de carga elevada de CPU.
+
+Posteriormente agregaremos un panel para ver el uso de memoria ram del dispositivo
+
+![Memory-Usage](../assets/JPRO02-ram.png)
+
+Tipo de Visualización
+
+* **Gauge**
+
+Panel Options → Title
+
+* **Memory Usage**
+
+Query (PromQL)
+
+```promql
+100 *
+sum(ciscoMemoryPoolUsed{instance="10.255.255.2"})
+/
+sum(
+  ciscoMemoryPoolUsed{instance="10.255.255.2"}
+  +
+  ciscoMemoryPoolFree{instance="10.255.255.2"}
+)
+```
+
+!!! note
+    Esta consulta calcula el porcentaje de uso de memoria del dispositivo con IP 10.255.255.2- La fórmula funciona de la siguiente manera:
+   - Se suma toda la memoria **usada** (`ciscoMemoryPoolUsed`)
+   - Se suma la memoria **total**, compuesta por memoria usada + libre
+   - El resultado se multiplica por **100** para obtener el valor en porcentaje
+
+El valor final queda normalizado en un rango de **0 a 100**, ideal para visualización en un panel **Gauge**.
+
+Standard options
+Unit
+
+Percent (0-100)
+
+!!! info
+    Al utilizar la unidad Percent (0-100), Grafana interpreta correctamente los valores como porcentaje, permitiendo además aplicar umbrales visuales para identificar estados normales, de advertencia o críticos en el consumo de memoria.
+
+Thresholds
+
+- 🟢 **Verde**: 70 %
+- 🟡 **Amarillo**: 75  %
+- 🔴 **Rojo**: 90 %
+
+Estos umbrales ayudan a detectar de forma temprana posibles problemas de saturación de memoria.
