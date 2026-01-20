@@ -206,6 +206,62 @@ Entonces debemos establecer el recorrido y poner las métricas específicas que 
 
 ![imagen.png10](../assets/modules-snmp-exporter.png)
 
+```yaml title="generator.yml"
+---
+auths:
+  public_v2:
+    version: 2
+
+modules:
+  # MÓDULO PARA VyOS, pfSense y Linux
+  nix_device:
+    walk:
+      - "SNMPv2-MIB::sysUpTime"              # UpTime
+      - "SNMPv2-MIB::sysName"                # Name
+      - "IF-MIB::ifXTable"                   # 64 bits meter
+      - "HOST-RESOURCES-MIB::hrProcessorLoad" # CPU load
+      - "HOST-RESOURCES-MIB::hrStorageTable"  # RAM, Disks
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifName"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: false
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+
+  # MÓDULO PARA EQUIPOS CISCO (Router y Switch)
+  cisco_device:
+    walk:
+      - "SNMPv2-MIB::sysUpTime"
+      - "SNMPv2-MIB::sysName"
+      - "IF-MIB::ifXTable"
+      - "CISCO-PROCESS-MIB::cpmCPUTotal5minRev"
+      - "CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree"
+      - "CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed"
+      - "OLD-CISCO-SYS-MIB::avgBusy5"
+      - "OLD-CISCO-SYS-MIB::freeMem"
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifName"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+```
+
 donde cada una tiene un significado en especial:
 
 ### Información del Sistema y Red
