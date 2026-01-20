@@ -85,4 +85,10 @@ Para acceder al dashboard de grafana se utiliza la URL `https://grafana.js-lab-u
 | **Prometheus** | `http://100.103.72.38:9090` |
 | **SNMP Exporter** | `http://100.103.72.38:9116` |
 
+![snmp-exporter](../assets/snmp_exporter.png)
+
+![prometheus-snmp](../assets/prometheus_snmp.png)
+
+![grafana-snmp](../assets/grafana-screenshot.png)
+
 > *En el apartado de servicios -> grafana está todo más detallada su configuración, o haciendo click en el enlace* [Grafana](../servicios/grafana.md)

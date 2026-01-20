@@ -15,7 +15,7 @@ Nos alerta visualmente (y podría enviar notificaciones) si un servicio o dispos
 
 El dashboard principal centraliza el estado de todos los monitores configurados, mostrando un "UP" (verde) o "DOWN" (rojo) para cada servicio.
 
-![KumaDashboard](../assets/kumaDash.png)
+![KumaDashboard](../assets/kumaDashboard.png)
 
 ## 3. Monitores Clave
 
@@ -34,9 +34,9 @@ Kuma está configurado para vigilar los componentes más importantes de la topol
 * **Monitores de Certificados SSL/TLS:**
     * `https://netbox.js-lab-uy.duckdns.org/`: Kuma también se encarga de monitorear la fecha de vencimiento de los certificados SSL/TLS, avisando 30 días antes de que expiren.
 
-***En esta imagen podemos ver que el certificado SSL para el dominio https://netbox.js-lab-uy.duckdns.org/ vence en 67 días:***
+***En esta imagen podemos ver que el certificado SSL para el endpoint https://netbox.js-lab-uy.duckdns.org/ vence en 36 días:***
 
-![KumaSSL](../assets/kuma2.png)
+![KumaSSL](../assets/kumaCert.png)
 
 ## 4. Despliegue (Docker)
 

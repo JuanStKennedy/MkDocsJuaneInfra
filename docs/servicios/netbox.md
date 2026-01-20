@@ -24,7 +24,7 @@ NetBox proporciona una vista detallada y relacional de todos los componentes de 
 ![netboxPrefijos](../assets/netbox-prefijos.png)
 
 ### 2.4 Cableado
-![netboxCableado](../assets/netbox-cables.png)
+![netboxCableado](../assets/cableado-netbox.png)
 
 
 ## 3. Componentes Documentados

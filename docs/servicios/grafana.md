@@ -1,5 +1,7 @@
 # :octicons-meter-16: Grafana & Prometheus
 
+> **URL de Acceso:** `https://grafana.js-lab-uy.duckdns.org`
+
 Este stack proporciona la capa de **Observabilidad** de la red. A diferencia de Uptime Kuma (que solo verifica si un equipo responde), este sistema recolecta métricas históricas detalladas: consumo de ancho de banda, carga de CPU por núcleo, uso de memoria RAM y estabilidad de las peticiones SNMP.
 
 Este servicio se ejecuta en una instancia de **Oracle Cloud Infrastructure (OCI)**, fuera de la red física del laboratorio.
@@ -247,7 +249,7 @@ donde cada una tiene un significado en especial:
     - **Detalle:** Métrica antigua para routers viejos que no soportan la MIB moderna.
 
 - **freeMem**: Memoria Libre (Cisco Legacy).
-    - **Detalle:** La métrica "vieja escuela" para equipos que no soportan MemoryPool.
+    - **Detalle:** La métrica "vieja" para equipos que no soportan MemoryPool.
 
 Ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
 
@@ -258,10 +260,6 @@ Ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
 Esto nos generará un archivo llamado snmp.yml:
 
 ![imagen.png11](../assets/imagen10.png)
-
-Sí lo imprimimos por pantalla, esto es un extracto de su contenido, bastante similar al del generador.yml:
-
-![imagen.png12](../assets/snmp-extract.png)
 
 Bien entonces el siguiente paso es levantar el contenedor y la configuración, para eso volvemos al directorio: 
 
@@ -333,18 +331,58 @@ Posteriormente utilizando creamos el archivo prometheus.yml y pegamos el siguien
 
 ```yaml
 global:
-  scrape_interval: 15s
+  scrape_interval: 30s
 
 scrape_configs:
-  - job_name: 'snmp_general'
+  # JOB 1: Equipos VyOS y PfSense
+  - job_name: 'Vyos and PfSense'
+    scrape_interval: 60s      # Escanea cada 1 minuto (menos carga al CPU de GNS3)
+    scrape_timeout: 30s       
     static_configs:
       - targets:
-        - 10.255.255.1  # Router Vyos
-        - 192.168.1.1   # PfSense
+        - 10.255.255.1  
+        - 192.168.1.1   
     metrics_path: /snmp
     params:
       auth: [public_v2]
-      module: [if_mib]  
+      module: [nix_device]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116
+
+  # JOB 2: Equipos Cisco
+  - job_name: 'Router Cisco'
+    static_configs:
+      - targets:
+        - 10.255.255.2
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module: [cisco_device]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116
+
+# JOB 3: Equipos Cisco
+  - job_name: 'Switches Cisco'
+    scrape_interval: 60s      
+    scrape_timeout: 30s       
+    static_configs:
+      - targets:
+        - 172.16.99.10
+        - 172.16.99.20
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module: [cisco_device]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -362,7 +400,7 @@ docker-compose up -d
 
 ![imagen.png13](../assets/imagen12.png)
 
-Ahora se encuentra en ejecución, y podemos ingresar a la interfaz gráfica utilizando la ip que nos proporciona tailscale e indicamos el puerto 9090 que está escuchando nuestro contenedor de prometheus `http://100.100.152.8:9090/`: 
+Ahora se encuentra en ejecución, y podemos ingresar a la interfaz gráfica utilizando la ip que nos proporciona tailscale e indicamos el puerto 9090 que está escuchando nuestro contenedor de prometheus `http://100.103.72.38:9090/`: 
 
 ![imagen.png14](../assets/imagen13.png)
 
@@ -370,7 +408,7 @@ Posteriormente ahora también ya podemos levantar el contenedor snmp_exporter qu
 
 ![imagen.png15](../assets/imagen14.png)
 
-También podemos ingresar a la página con la ip de tailscale y el puerto 9116 [`http://100.100.152.8:9116/`](http://100.100.152.8:9116/)
+También podemos ingresar a la página con la ip de tailscale y el puerto 9116 `http://100.103.72.38:9090/`
 
 ![imagen.png16](../assets/imagen15.png)
 
@@ -410,18 +448,6 @@ volumes:
 networks:
   monitoring_network:
     external: true
-```
-
-Ahora creamos un directorio llamado grafana-data:
-
-```bash
-mkdir grafana-data
-```
-
-Y le damos permisos de lectura, escritura y ejecución:
-
-```bash
-chmod 777 grafana-data
 ```
 
 Listo, ahora si podremos levantar nuestro contenedor con la herramienta `docker-compose up`:
@@ -467,152 +493,3 @@ le damos click en new visualization:
 aquí seleccionamos prometheus como la fuente de datos:
 
 ![imagen.png27](../assets/imagen26.png)
-
-bien y ahora para obtener el nombre como un gráfico del tipo stat:
-
-![imagen.png28](../assets/imagen27.png)
-
-En la consulta PromQL y en las opciones ponemos lo siguiente:
-
-Consulta (Code): `sysName{instance="192.168.1.1"}`
-
-Options → Legend: {{sysName}}
-
-El tipo de gráfico seleccionamos Stat
-
-![imagen.png29](../assets/imagen28.png)
-
-En donde dice Graph mode dejamos none para que no se vea la linea verde horizontal abajo y en Text mode ponemos Name, sino se verá un número en el gráfico y no es lo que buscamos.
-
-![imagen.png30](../assets/imagen29.png)
-
-Ahí ya tenemos obtuvimos el hostname de PfSense
-
-Ahora agregaremos otro para el tiempo de encendido del dispositivo, para eso agregamos otra visualización:
-
-![imagen.png31](../assets/imagen30.png)
-
-Consulta:`sysUpTime{instance="192.168.1.1"} * 10`
-
-### Tipo de Panel (Visualización)
-
-En la esquina superior derecha del editor, cambia el tipo de visualización a **Stat**.
-
-onfiguración del Panel (Panel options)
-
-En la columna de la derecha, ajusta estos campos clave:
-
-- **Panel options > Title:** `UpTime`.
-- **Value options > Calculation:** `Last*` (para que muestre el valor más reciente).
-- **Standard options > Unit:** Busca y selecciona **Time / milliseconds (ms)**.
-    
-    > ¿Por qué ms? Como vimos antes, al multiplicar las centésimas de SNMP por 10, el resultado está en milisegundos. Grafana detectará esto y convertirá automáticamente el número a "mins", "hours" o "days" según corresponda.
-    > 
-
-![imagen.png32](../assets/imagen31.png)
-
-ahora agregamos otra visualización pero para ver el uso de la CPU:
-
-![imagen.png33](../assets/imagen32.png)
-
-Consulta:`100 - avg(ssCpuIdle{instance="192.168.1.1"})`
-
-- **Explicación:** La métrica `ssCpuIdle` mide el porcentaje de tiempo que la CPU está **ociosa**. Al restarlo de 100, obtienes el porcentaje de **uso real**.
-
-### Tipo de Panel (Visualización)
-
-- En el selector de visualización (arriba a la derecha), elige **Gauge**.
-
-### Configuración del Panel (Right Sidebar)
-
-Ajusta los siguientes parámetros para que luzca idéntico:
-
-- **Panel options:**
-    - **Title:** `Total Cpu Use`.
-- **Value options:**
-    - **Calculation:** `Last *`.
-- **Standard options:**
-    - **Unit:** Selecciona **Misc / Percent (0-100)**.
-    - **Min:** `0`.
-    - **Max:** `100`.
-- **Thresholds (Umbrales):**
-    - Aquí es donde defines los colores del arco:
-        - **Verde (base):** Desde 0.
-        - **Amarillo:** Por ejemplo, en `70`.
-        - **Rojo:** Por ejemplo, en `90`.
-
-![imagen.png34](../assets/imagen33.png)
-
-Ahora seguiremos con otro para ver el estado de las interfaces del firewall PfSense, para eso agregamos otra visualización:
-
-![imagen.png35](../assets/imagen34.png)
-
-Consulta: `ifOperStatus{instance="192.168.1.1"}`
-
-**Legend:** Cambia el formato de la leyenda a **Custom** y escribe: `{{ifName}}`.
-
-- *Esto es vital para que a la izquierda aparezcan los nombres de las interfaces (em1, em2, tailscale0, etc.) en lugar de una cadena de texto larga.*
-
-### Tipo de Panel (Visualización)
-
-- En el selector de visualización (arriba a la derecha), elige **State timeline**.
-
-**Panel options:**
-
-- **Title:** `Interfaces Status`
-
-**State timeline (opciones específicas):**
-
-- **Merge equal consecutive values:** **Activado** (en azul). Esto hace que se vean barras continuas en lugar de puntitos.
-- **Show values:** `Auto`.
-
-**Value mappings (Mapeo de valores):**
-
-- Esta es la parte más importante. La métrica `ifOperStatus` devuelve números (1 para encendido, 2 para apagado). Debes crear dos reglas:
-    1. **Value:** `1` -> **Text:** `UP` | **Color:** Verde.
-    2. **Value:** `2` -> **Text:** `DOWN` | **Color:** Rojo.
-
-![imagen.png36](../assets/imagen35.png)
-
-![imagen.png37](../assets/imagen36.png)
-
-Ahora agregaremos un último panel para ver el total de tráfico entrante y saliente del firewall
-
-![imagen.png38](../assets/imagen37.png)
-
-Consultas:
-
-- **Consulta A (Entrada): `sum(rate(ifHCInOctets{instance="192.168.1.1"}[$__rate_interval]) * 8)**`
-    - **Legend:** `Total Entrada`
-- **Consulta B (Salida): `sum(rate(ifHCOutOctets{instance="192.168.1.1"}[$__rate_interval]) * 8)**`
-    - **Legend:** `Total Salida`
-
-### Tipo de Panel y Estilo
-
-- **Visualización:** `Time series`.
-- **Graph styles (Panel options):**
-    - **Style:** `Lines`.
-    - **Fill opacity:** `30%` o `40%` (para que se vea el relleno de color bajo la línea).
-
-### Ajustes del Eje y Unidades (Standard options)
-
-- **Unit:** Selecciona **Data rate / bits/sec (SI)**. Grafana entenderá automáticamente cuándo mostrar `kbps`, `Mbps` o `Gbps`.
-
-### Configuración de la Leyenda (Legend)
-
-Para que se vea como una tabla en la parte inferior:
-
-- **Visibility:** `On`.
-- **Mode:** `Table`.
-- **Placement:** `Bottom`.
-- **Values:** Selecciona `Last`, `Min`, `Mean` (promedio) y `Max`.
-
-y en el apartado de override para que se vea invertido el total de salida:
-
-![imagen.png39](../assets/imagen38.png)
-
-En Fields with name ponemos Total Salida, y en Graph styles → Transform ponemos Negative Y.
-
-![imagen.png40](../assets/imagen39.png)
-
-Y finalmente así queda nuestro dashboard para el firewall PfSense utilizando grafana, prometheus y el exportador snmp.
