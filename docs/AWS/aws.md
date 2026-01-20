@@ -57,7 +57,7 @@ El componente clave es Tailscale.
 ```
 ### 3.1 Máquinas de la tailnet
 
-![TailscaleMachines](../assets/tailscale1.png)
+![TailscaleMachines](../assets/tailscale-machines.png)
 
 ### 3.2 Subnet Routes (que comparte PfSense)
 ![TailscaleSubnets](../assets/subnet-tailscale-advertise-new.png)

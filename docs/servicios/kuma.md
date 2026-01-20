@@ -5,7 +5,7 @@
 Uptime Kuma es un dashboard de monitoreo simple y de código abierto. En nuestra topología
 nos sirve para saber si nuestros dispositivos de red están activos así como también nuestras páginas.
 
-## 1. Propósito (Observabilidad)
+## 1. Propósito (Monitoreo de Servicios)
 
 En una infraestructura, no es suficiente con "construir" los servicios, debemos asegurarnos de que se mantengan en línea. Uptime Kuma nos da una vista de controlador del estado de todos los componentes críticos del laboratorio.
 

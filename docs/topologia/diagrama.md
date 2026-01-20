@@ -6,5 +6,5 @@ La misma incluye un router Cisco y VyOS, switches Cisco, un firewall PfSense y s
 También se muestra con un icono el servicio de docker desplegado en cada server, el servidor de bastión y el Samba DC.
 
 
-![Topología GNS3](../assets/topologiaGNS3.png)
+![Topología GNS3](../assets/newtopology.png)
 

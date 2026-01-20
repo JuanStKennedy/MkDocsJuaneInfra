@@ -13,6 +13,6 @@ Aquí se encuentra la documentación detallada de la configuración para cada di
 
 ## Servidores
 * [**JDATSR01**](servidores/JDATSR01.md)
-* [**JDATSR02**](servidores/JDATSR02.md)
+* [**JDCSR01**](servidores/JDCSR01.md)
 * [**JDEVSR01**](servidores/JDEVSR01.md)
 * [**JJUMSR01**](servidores/JJUMSR01.md)
