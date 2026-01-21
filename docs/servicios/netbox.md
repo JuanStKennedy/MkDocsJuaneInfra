@@ -10,6 +10,8 @@ El objetivo de NetBox es reemplazar las hojas de cálculo y la documentación es
 
 NetBox es la base de datos central que contiene un registro de cada dispositivo, cable, VLAN y dirección IP que existe en la topología.
 
+---
+
 ## 2. Vistas del Inventario
 
 NetBox proporciona una vista detallada y relacional de todos los componentes de la infraestructura. Las vistas más importantes son el IPAM (gestión de IPs) y el inventario de dispositivos.
@@ -26,6 +28,7 @@ NetBox proporciona una vista detallada y relacional de todos los componentes de 
 ### 2.4 Cableado
 ![netboxCableado](../assets/cableado-netbox.png)
 
+---
 
 ## 3. Componentes Documentados
 
@@ -36,6 +39,8 @@ La base de datos de NetBox ha sido poblada para reflejar exactamente la topolog�
 * **Dispositivos:** Todos los dispositivos de la topología (`JPROO1`, `JPSWA01`, `JDATSR01`, etc.) han sido creados y asignados a sus roles.
 * **VLANs y Prefijos:** Todas las VLANs (1, 5, 10, 200) y subredes (Prefixes) están registradas.
 * **Cables:** Todas las conexiones físicas (virtuales) entre dispositivos en GNS3 se han replicado como "cables" en NetBox, conectando interfaces específicas.
+
+---
 
 ## 4. Despliegue (Docker)
 

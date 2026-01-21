@@ -7,9 +7,11 @@ nos sirve para saber si nuestros dispositivos de red están activos así como ta
 
 ## 1. Propósito (Monitoreo de Servicios)
 
-En una infraestructura, no es suficiente con "construir" los servicios, debemos asegurarnos de que se mantengan en línea. Uptime Kuma nos da una vista de controlador del estado de todos los componentes críticos del laboratorio.
+En nuestra topología, no es suficiente con "construir" los servicios, debemos asegurarnos de que se mantengan en línea. Uptime Kuma nos da una vista de controlador del estado de todos los componentes críticos del laboratorio.
 
 Nos alerta visualmente (y podría enviar notificaciones) si un servicio o dispositivo se cae, permitiendo un diagnóstico rápido.
+
+---
 
 ## 2. Dashboard de Estado
 
@@ -17,13 +19,15 @@ El dashboard principal centraliza el estado de todos los monitores configurados,
 
 ![KumaDashboard](../assets/kumaDashboard.png)
 
+---
+
 ## 3. Monitores Clave
 
-Kuma está configurado para vigilar los componentes más importantes de la topología usando diferentes métodos:
+Kuma está configurado para vigilar todos los componentes de la topología usando diferentes métodos, estos son algunos ejemplos:
 
 * **Monitores HTTP (Sitios Web):**
     * `NetBox`: Verifica que la interfaz web de NetBox responda correctamente.
-    * `Homer Dashboard`: Asegura que el portal de inicio esté accesible.
+    * `Grafana`: Consulta que el dashboard de Grafana esté accesible.
     * `pfSense WebGUI`: Verifica el estado de la interfaz de gestión del firewall.
 
 * **Monitores Ping (ICMP):**
@@ -38,9 +42,11 @@ Kuma está configurado para vigilar los componentes más importantes de la topol
 
 ![KumaSSL](../assets/kumaCert.png)
 
+---
+
 ## 4. Despliegue (Docker)
 
-Uptime Kuma se ejecuta como un contenedor Docker liviano en el servidor de servicios (el mismo que NetBox y Homer), gestionado a través de `docker-compose`.
+Uptime Kuma se ejecuta como un contenedor Docker liviano en el servidor JDATSR01 (Vlan 5 Datacenter), gestionado a través de `docker-compose`.
 
 ```yaml title="docker-compose.yml"
 services:

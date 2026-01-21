@@ -2,16 +2,16 @@
 
 > **URL de Acceso:** `https://grafana.js-lab-uy.duckdns.org`
 
-Este stack proporciona la capa de **Observabilidad** de la red. A diferencia de Uptime Kuma (que solo verifica si un equipo responde), este sistema recolecta métricas históricas detalladas: consumo de ancho de banda, carga de CPU por núcleo, uso de memoria RAM y estabilidad de las peticiones SNMP.
+Este stack proporciona **Observabilidad** de la red. A diferencia de Uptime Kuma (que solo verifica si un equipo responde), este sistema recolecta métricas históricas detalladas: consumo de ancho de banda, carga de CPU por núcleo, uso de memoria RAM y estabilidad de las peticiones SNMP.
 
-Este servicio se ejecuta en una instancia de **Oracle Cloud Infrastructure (OCI)**, fuera de la red física del laboratorio.
+Este servicio se ejecuta en una instancia de **Oracle Cloud Infrastructure (OCI)**, fuera de la red local en GNS3 del laboratorio.
     
-La conexión con los dispositivos locales se realiza de forma segura y transparente a través de un túnel **Tailscale**.
+La conexión con los dispositivos locales se realiza a través de un túnel **Tailscale**.
 
 ## :fontawesome-solid-diagram-project: Arquitectura de Red
 
 * **No hay puertos expuestos a Internet:** Los puertos 3000 (Grafana) y 9090 (Prometheus) no están abiertos en el firewall de Oracle.
-* **Acceso VPN:** Para ver los dashboards o consultar datos, es obligatorio estar conectado a la red Tailscale.
+* **Acceso Público y VPN:** Para ver los dashboards en grafana se expone publicamente el endpoint `https://grafana.js-lab-uy.duckdns.org`, mientras que para acceder a prometheus y snmp exporter, es obligatorio estar conectado a la red Tailscale.
 * **Recolección de Datos:** Prometheus (en la nube) alcanza las IPs privadas de la LAN (`192.168.1.x`) enrutando el tráfico a través del nodo Tailscale local (Subnet Router).
 
 
@@ -466,13 +466,13 @@ Posteriormente ahora también ya podemos levantar el contenedor snmp_exporter qu
 
 También podemos ingresar a la página con la ip de tailscale y el puerto 9116 `http://100.103.72.38:9090/`
 
-![imagen.png16](../assets/imagen15.png)
+![imagen.png17](../assets/snmp_exporter.png)
 
-Ahora en este paso incluso ya podemos probar si estamos obteniendo las métricas, entonces en target ponemos la ip de nuestro dispositivo por ejemplo 192.168.1.1 (PfSense), en auth dejamos el public_v2 que quedó definido desde un principio y en módulo también dejamos el de if_mib:
+Ahora en este paso incluso ya podemos probar si estamos obteniendo las métricas, entonces en target ponemos la ip de nuestro dispositivo por ejemplo 10.255.255.2 (JPRO02), en auth dejamos el public_v2 que quedó definido desde un principio y en módulo escribimos cisco_device:
 
-![imagen.png17](../assets/imagen16.png)
+![imagen.png17](../assets/cisco-device-snmp.png)
 
-Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro firewall PfSense:
+Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro router:
 
 Una vez que eso está funcionando ya podemos volver a la carpeta /opt/docker/ y dentro de ella crearemos una llamada Grafana:
 

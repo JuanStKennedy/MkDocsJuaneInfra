@@ -59,7 +59,6 @@ Estos son los dispositivos finales en cada red.
 | Host | Red (VLAN) | Interfaz | Dirección IP | Gateway |
 | :--- | :--- | :--- | :--- | :--- |
 | JDATSR01| Datacenter (5) | ens4 | 172.16.5.100 | 172.16.5.1 |
-| JDATSR02| Datacenter (5) | ens4 | 172.16.5.101 | 172.16.5.1 |
 | JDEVSR01| Dev (200) | ens4 | 172.16.200.50 | 172.16.200.1 |
 | JJUMSR01 | Sysadmin (10) | ens4 | 172.16.10.10 | 172.16.10.1 |
 | JDCSR01  | Sysadmin (10) | ens4 | 172.16.10.11 | 172.16.10.1 |

@@ -10,6 +10,8 @@ Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en 
 
 * El router (JPROO2): Recibe el tráfico etiquetado a través de un enlace troncal y realiza el enrutamiento Inter-VLAN.
 
+---
+
 ## 2. Tabla de VLANs
 
 | VLAN ID | Nombre (Propósito) | Red (Subred) | Gateway (en JPROO2) |
@@ -29,9 +31,9 @@ Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en 
 
 Estos puertos están asignados a una única VLAN.
 
-* **Interfaz `G0/0` y `G0/1` (Datacenter):**
+* **Interfaz `G0/0` (Datacenter):**
     * VLAN: 5
-    * Dispositivos: `JDATSR01`, `JDATSR02`
+    * Dispositivo: `JDATSR01`
 * **Interfaz `G1/0` (Dev):**
     * VLAN: 200
     * Dispositivo: `JDEVSR01`

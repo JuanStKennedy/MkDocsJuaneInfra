@@ -1,6 +1,6 @@
 # :octicons-key-16: Samba AD DC (Identity Provider)
 
-El Controlador de Dominio de Samba (Samba AD DC) es el corazón de la identidad en el laboratorio, proporcionando servicios de LDAP (Servicio de Directorio) y Kerberos (Autenticación). Permite la autenticación centralizada y el inicio de sesión único para todos los hosts y servicios.
+El Controlador de Dominio de Samba (Samba AD DC) nos proporciona la identidad en el laboratorio, brindando servicios de LDAP (Servicio de Directorio) y Kerberos (Autenticación). Permite la autenticación centralizada y el inicio de sesión único para todos los hosts y servicios.
 
 ## 1. Aprovisionamiento del Controlador de Dominio (JDCSR01)
 
@@ -48,6 +48,8 @@ host -t A $(hostname).$REALM
 
 sleep 5
 ```
+
+---
 
 ## 2. Estructura de Usuarios y Grupos
 
@@ -126,6 +128,8 @@ samba-tool group addmembers devs "david.gomez,sandra.ramirez,alejandro.torres,pa
 samba-tool group addmembers rrhh "beatriz.navarro,raul.gil,maria.soto,antonio.castro,isabel.ramos,jorge.vega"
 ```
 
+---
+
 ## 3. Unión de Equipos al Dominio (Host Linux)
 
 Todos los servidores Linux (JDEVSR01, JJUMSR01, JDATSR01, JDATSR02) se unieron al dominio utilizando realm para configurar SSSD, Kerberos y Winbind automáticamente.
@@ -166,6 +170,8 @@ EOF
 sleep 5
 sudo systemctl restart sssd
 ```
+
+---
 
 ## 4. Demostración en una máquina con Windows 10.
 

@@ -40,6 +40,6 @@ El laboratorio fue desarrollado en **GNS3**, utilizando dispositivos de red como
 
 !!! warning 
     Este sitio documenta un entorno de laboratorio en desarrollo activo. 
-    Ten en cuenta que los enlaces a servicios en vivo (Homer, Kuma, NetBox) dependen de un host físico que **no opera en régimen 24/7**, por lo que es probable que los encuentres inactivos fuera de horario de pruebas.
+    Ten en cuenta que los enlaces a servicios en vivo (Grafana, Kuma, NetBox) dependen de un host físico que **no opera en régimen 24/7**, por lo que es probable que los encuentres inactivos fuera de horario de pruebas.
 
 

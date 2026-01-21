@@ -1,7 +1,7 @@
 # AWS Reverse Proxy con NPM
 > **Punto de Entrada Público:** `https://netbox.js-lab-uy.duckdns.org`, `https://kuma.js-lab-uy.duckdns.org`, `https://grafana.js-lab-uy.duckdns.org`
 
-Este componente centraliza el punto de entrada público a todos los servicios internos del laboratorio. Utiliza una Máquina Virtual (VM) en AWS y Nginx Proxy Manager (NPM) para una gestión gráfica y eficiente del tráfico, SSL y Reverse Proxy.
+Este componente centraliza el punto de entrada público a todos los servicios internos del laboratorio en GNS3 y además de dejar público el servicio de Grafana que corre en la nube de oracle. Utiliza una Máquina Virtual (VM) en AWS y Nginx Proxy Manager (NPM) para una gestión gráfica y eficiente del tráfico, SSL y Reverse Proxy.
 
 ## 1. Diseño de la Arquitectura
 
