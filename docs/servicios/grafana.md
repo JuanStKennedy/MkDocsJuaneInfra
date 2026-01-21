@@ -117,7 +117,7 @@ mkdir monitoring-snmp && cd monitoring-snmp
 Dentro de ese directorio clonamos el repositorio de github:
 
 ```bash
-git clone [https://github.com/prometheus/snmp_exporter.git](https://github.com/prometheus/snmp_exporter.git)
+git clone https://github.com/prometheus/snmp_exporter.git
 ```
 
 Una vez clonado el repositorio dentro de la carpeta snmp_exporter tendremos todo el código fuente para el generador, aunque primero necesitaremos instalar algunas dependencias para poder compilar el generador:
@@ -158,7 +158,7 @@ Primero verificamos si tenemos go instalado, en caso que no, lo instalamos:
 Y para eso lo que hacemos es descargar la versión 1.23.5 utilizando wget, es necesaria esa versión para garantizar la compatibilidad con el código del repositorio:
 
 ```bash
-wget [https://go.dev/dl/go1.23.5.linux-amd64.tar.gz](https://go.dev/dl/go1.23.5.linux-amd64.tar.gz)
+wget https://go.dev/dl/go1.23.5.linux-amd64.tar.gz
 ```
 
 Entonces lo descomprimimos ahora:
@@ -472,7 +472,7 @@ Ahora en este paso incluso ya podemos probar si estamos obteniendo las métricas
 
 ![imagen.png17](../assets/cisco-device-snmp.png)
 
-Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro router:
+Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro router.
 
 Una vez que eso está funcionando ya podemos volver a la carpeta /opt/docker/ y dentro de ella crearemos una llamada Grafana:
 
@@ -552,9 +552,9 @@ aquí seleccionamos prometheus como la fuente de datos:
 
 bien, ahora ya podemos comenzar a crear un panel, comenzaremos con el nombre del dispositivo, en este ejemplo lo haremos para el router cisco JPRO02 de la topología:
 
-![JPRO02-name](../assets/JPRO02-name.png)
+### Stat - Nombre del Dispositivo Panel
 
-#### Configuración del Panel (Grafana)
+![JPRO02-name](../assets/JPRO02-name.png)
 
 Tipo de Visualización
 
@@ -575,6 +575,10 @@ Options -> Legend
 ```
 {{sysName}}
 ```
+
+---
+
+### Stat - Tiempo de Encendido Panel
 
 Luego para el tiempo de encendido el panel es el siguiente:
 
@@ -598,6 +602,10 @@ sysUpTime{instance="10.255.255.2"} * 10
     multiplicar por 10 lo convierte en milésimas (Milisegundos).
 
 Standard options -> unit -> milliseconds (ms)
+
+---
+
+### Stat - Pico Máximo de Tráfico de Salida Panel
 
 Ahora crearemos un panel que nos muestra el pico de salida (subida), máximo del router que tuvo en el promedio de 2 minutos
 
@@ -624,6 +632,10 @@ Standard options -> unit -> bytes (SI)
 !!! info
     Para el panel que muestra el máximo de pico de entrada se hace exactamente igual, solo que en la consulta se utiliza la siguiente: 
     ```max_over_time(sum(rate(ifHCInOctets{instance="10.255.255.2"}[2m]))[$__range:]) * 8```
+
+---
+
+### Gauge - Uso de CPU Panel
 
 Ahora crearemos el panel para ver el uso de la CPU del router
 
@@ -660,6 +672,10 @@ Thresholds
 
 Esta configuración permite identificar rápidamente estados de carga elevada de CPU.
 
+--- 
+
+### Gauge - Uso de Memoria RAM Panel
+
 Posteriormente agregaremos un panel para ver el uso de memoria ram del dispositivo
 
 ![Memory-Usage](../assets/JPRO02-ram.png)
@@ -694,9 +710,7 @@ sum(
 El valor final queda normalizado en un rango de **0 a 100**, ideal para visualización en un panel **Gauge**.
 
 Standard options
-Unit
-
-Percent (0-100)
+Unit -> Percent (0-100)
 
 !!! info
     Al utilizar la unidad Percent (0-100), Grafana interpreta correctamente los valores como porcentaje, permitiendo además aplicar umbrales visuales para identificar estados normales, de advertencia o críticos en el consumo de memoria.
@@ -708,3 +722,94 @@ Thresholds
 - 🔴 **Rojo**: 90 %
 
 Estos umbrales ayudan a detectar de forma temprana posibles problemas de saturación de memoria.
+
+---
+
+### Time series - Tráfico de Red Panel
+
+El siguiente paso es crear gráficos de línea para monitorear el tráfico de red en tiempo real.
+
+![Traffic-Graph](../assets/JPRO02-totalTraffic.png)
+
+Tipo de Visualización
+
+* **Time series**
+
+Panel Options → Title
+
+* **Total Traffic**
+
+Query (PromQL)
+
+```promql
+sum(irate(ifHCInOctets{instance="10.255.255.2"}[$__rate_interval]) * 8)
+```
+**Legend**
+Total in
+
+```promql
+sum(irate(ifHCOutOctets{instance="10.255.255.2"}[$__rate_interval]) * 8)
+```
+
+**Legend**
+Total out
+
+!!! note
+    Estas consultas calculan la tasa de tráfico de red entrante y saliente en bits por segundo para el dispositivo con IP
+    10.255.255.2. La función `irate()` estima la tasa instantánea basada en los últimos datos disponibles, y el resultado se multiplica por 8 para convertir bytes a bits.
+
+Standard options
+Unit -> bytes (SI)
+
+**Overrides**
+![Traffic-Graph-Overrides](../assets/overrides-total.png)
+
+En el apartado de overrides, seleccionamos Fields with Name y escribimos Total Out, luego en Graph styles -> Transform, seleccionamos Negative Y, y obtenemos el panel adjuntado arriba.
+
+---
+
+Por ultimo, crearemos el dashboard que contiene el total de tráfico pero de cada interfaz del router JPRO02, tanto entrada como salida, para obtener algo mas detallado.
+
+![Interfaces-Traffic](../assets/JPRO02-fixedTraffic.png)
+
+Tipo de Visualización
+
+* **Time series**
+
+Panel Options → Title
+
+* **Total Traffic Per Interface**
+
+Query (PromQL)
+
+```promql
+irate(ifHCInOctets{instance="10.255.255.2"}[2m]) * 8 > 0
+
+```
+
+**Legend**
+Total in {{ifName}} 
+
+```promql
+irate(ifHCOutOctets{instance="10.255.255.2"}[2m]) * 8 > 0
+```
+
+**Legend**
+Total out {{ifName}}
+
+!!! note
+    Estas consultas calculan la tasa de tráfico de red entrante y saliente en bits por segundo (bps) para cada interfaz del dispositivo, utilizando una ventana de 2 minutos y multiplicando por 8 para convertir de bytes a bits.
+
+Standard options
+Unit -> bytes (SI)
+
+**Overrides**
+
+![Interfaces-Traffic-Overrides](../assets/JPRO02-overrides-snmp.png)
+
+En el apartado de overrides, seleccionamos Fields with Name y escribimos /.Out*/, luego en Graph styles -> Transform, seleccionamos Negative Y, y obtenemos el panel adjuntado arriba.
+
+---
+
+## Conclusión
+¡Y con esto hemos finalizado la configuración del stack de Grafana y Prometheus para monitorear nuestros dispositivos de red a través de SNMP! Ahora podemos visualizar métricas detalladas y en tiempo real sobre el rendimiento y estado de nuestros equipos directamente desde los dashboards personalizados en Grafana. También obtendremos el mismo resultado haciendo con el resto de dispositivos de red.

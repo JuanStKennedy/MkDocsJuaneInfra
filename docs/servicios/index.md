@@ -2,7 +2,7 @@
 
 Esta sección documenta las herramientas de soporte que hacen que el laboratorio sea funcional, observable, seguro y fácil de usar.
 
-Casi todos estos servicios se ejecutan como contenedores con **Docker** en los servidores Debian, Excepto el Bastión.
+Casi todos estos servicios se ejecutan como contenedores con **Docker** en los servidores Debian, Excepto el Bastión y el Samba DC.
 
 * [**NetBox (Source of Truth)**](netbox.md): La base de datos de qué existe en la red.
 * [**Uptime Kuma (Monitoreo)**](kuma.md): El dashboard de monitoreo de los equipos de la topología y servicios.
