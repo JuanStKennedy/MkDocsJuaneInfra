@@ -11,7 +11,7 @@ El servicio Samba AD DC fue levantado sobre el servidor JDCSR01 con la siguiente
 
 DOMAIN="JS-LAB-PY"
 REALM="${DOMAIN}.DUCKDNS.ORG"
-ADMINPASSWORD="Passw0rd123!"
+ADMINPASSWORD=""
 
 sed -i 's/127.0.0.1/8.8.8.8/' /etc/resolv.conf
 
@@ -58,7 +58,7 @@ sleep 5
 
 La estructura de AD fue creada mediante un script utilizando la herramienta `samba-tool` para estandarizar los nombres de usuario al formato nombre.apellido y organizar la red.
 Este script crea OUs, grupos de seguridad, asigna a los usuarios a sus respectivos grupos y organiza todo de manera jerárquica. Además,
-la contraseña por defecto para los usuarios es el nombre.apellido, pero cuando se inicia sesión por primera vez, se les solicita cambiarla.:
+la contraseña por defecto para los usuarios es el nombre.apellido, pero cuando se inicia sesión por primera vez, se les solicita cambiarla:
 
 ```bash
 #!/bin/bash
