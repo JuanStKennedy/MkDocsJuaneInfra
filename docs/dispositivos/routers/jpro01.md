@@ -111,14 +111,6 @@ Este es el router de núcleo que gestiona el enrutamiento entre el PfSense y el 
          }
      }
      host-name JPRO01
-     login {
-         user vyos {
-             authentication {
-                 encrypted-password $6$rounds=656000$IYXuQD4lhFvgZhsa$/N72BfVdKKdGtnyISWja.4cdMTnY.C/atR70/MVmsyyilXLifUmjk1j9SonjbK572uPXb4cOHwh.HDfSL9ihG0
-                 plaintext-password ""
-             }
-         }
-     }
      name-server 8.8.8.8
      name-server 1.1.1.1
      option {

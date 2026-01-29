@@ -6,29 +6,10 @@ Este switch actúa como el **núcleo (core)** de la red. Su única función es a
 Current configuration : 4185 bytes
 !
 ! Last configuration change at 00:45:49 UTC Fri Jan 2 2026
-!
-version 15.2
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
-service compress-config
-!
 hostname JPSWC01
 !
 boot-start-marker
 boot-end-marker
-!
-!
-enable secret 5 $1$FA8d$jtbhQt1ukmDHFHUj2uvlM/
-!
-username JPSWC01-admin secret 5 $1$UTU0$BGdoUkycN.8eeCuP46y2W.
-no aaa new-model
-!
-!
-!
-!
-!
-!
 !
 !
 ip domain-name juane.prod
@@ -41,17 +22,6 @@ spanning-tree mode pvst
 spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 !
 !
 !

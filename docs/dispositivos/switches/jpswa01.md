@@ -7,28 +7,10 @@ Current configuration : 4351 bytes
 !
 ! Last configuration change at 00:20:35 UTC Fri Jan 2 2026
 !
-version 15.2
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
-service compress-config
-!
 hostname JPSWA01
 !
 boot-start-marker
 boot-end-marker
-!
-!
-enable secret 5 $1$Mfh6$9rwqs4tPMH7DIWqd0qNk/0
-!
-username JPSWA01-admin secret 5 $1$ZNYt$AmaYwOhigv2QcslFx46tC.
-no aaa new-model
-!
-!
-!
-!
-!
-!
 !
 !
 ip domain-name juane.prod
@@ -41,18 +23,6 @@ spanning-tree mode pvst
 spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 !
 !
 interface GigabitEthernet0/0

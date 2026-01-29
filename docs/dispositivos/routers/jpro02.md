@@ -14,60 +14,10 @@ service password-encryption
 !
 hostname JPRO02
 !
-boot-start-marker
-boot-end-marker
-!
-!
-enable secret 9 $9$0rnYaxWinayPJv$l0LB5IwbNze0I17fatX605.ZTk5jeUf/wL8MXqX08.Y
-!
-no aaa new-model
-!
-!
-!
-mmi polling-interval 60
-no mmi auto-configure
-no mmi pvc
-mmi snmp-timeout 180
-!
-!
-!
-!
-!
-no ip icmp rate-limit unreachable
-!
-!
-!
-!
-!
-!
 no ip domain lookup
 ip domain name juane.prod
 ip cef
 no ipv6 cef
-!
-multilink bundle-name authenticated
-!
-!
-!
-!
-username JPRO02-admin secret 9 $9$iyExofUW1N/EVP$R0wLVa4qnUVBwatPkLVrryzTb.MU7wmomuLHu2HzdLk
-!
-redundancy
-!
-no cdp log mismatch duplex
-!
-ip tcp synwait-time 5
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 !
 !
 interface Loopback0
